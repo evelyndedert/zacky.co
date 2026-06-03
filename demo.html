@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zacky — OS Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --sidebar-w: 220px;
+  --header-h: 56px;
+  --ink: #1a1a1a;
+  --ink-2: #3a3a3a;
+  --stone: #5E5850;
+  --muted: #A89F94;
+  --faint: #C8C0B8;
+  --border: rgba(26,26,26,0.08);
+  --border-2: rgba(26,26,26,0.12);
+  --bg: #f0f0f0;
+  --surface: #FFFFFF;
+  --terra: #C17B3F;
+  --green: #4CAF7D;
+  --yellow: #E6B84A;
+  --red: #E05252;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 16px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--ink);
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Lora', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #F5F0E8;
+  flex-shrink: 0;
+}
+
+.logo-text { font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.2; }
+.logo-sub { font-size: 10px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+
+.sidebar-search {
+  margin: 10px 10px 4px;
+  background: rgba(26,26,26,0.04);
+  border: 1px solid var(--border-2);
+  border-radius: 7px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: default;
+}
+
+.nav-group { padding: 12px 8px 0; }
+.nav-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--faint);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0 8px;
+  margin-bottom: 3px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--stone);
+  cursor: pointer;
+  transition: background 0.13s, color 0.13s;
+  user-select: none;
+}
+
+.nav-item:hover { background: rgba(26,26,26,0.04); color: var(--ink); }
+.nav-item.active { background: rgba(26,26,26,0.07); color: var(--ink); font-weight: 600; }
+
+.nav-icon { width: 15px; height: 15px; opacity: 0.45; flex-shrink: 0; }
+.nav-item.active .nav-icon { opacity: 0.85; }
+
+.sidebar-user {
+  margin-top: auto;
+  padding: 14px 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--terra);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.user-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+.user-email { font-size: 11px; color: var(--muted); }
+
+/* ── MAIN ── */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── PANEL ── */
+.panel { display: none; flex: 1; flex-direction: column; overflow: hidden; }
+.panel.active { display: flex; }
+
+.panel-header {
+  padding: 20px 28px 18px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  background: var(--surface);
+}
+
+.panel-meta { font-size: 11px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 3px; }
+.panel-title { font-family: 'Lora', serif; font-size: 26px; font-weight: 700; color: var(--ink); line-height: 1; margin-bottom: 3px; }
+.panel-sub { font-size: 13px; color: var(--muted); }
+
+.panel-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── KPI ROW ── */
+.kpi-row { display: flex; gap: 12px; }
+.kpi-tile {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--border-2);
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+.kpi-val { font-size: 32px; font-weight: 700; color: var(--ink); line-height: 1; margin-bottom: 5px; }
+.kpi-label { font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+
+/* ── SECTION ── */
+.section-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-count {
+  background: rgba(168,159,148,0.15);
+  color: var(--muted);
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+/* ── PROJECT CARDS ── */
+.project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+.project-card {
+  background: var(--surface);
+  border: 1px solid var(--border-2);
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+
+.proj-client-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid rgba(168,159,148,0.35);
+  padding: 2px 7px;
+  border-radius: 3px;
+  margin-bottom: 8px;
+}
+
+.proj-title { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+.proj-status { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+
+.proj-bar { height: 3px; background: rgba(26,26,26,0.07); border-radius: 2px; margin-bottom: 10px; }
+.proj-fill { height: 100%; background: var(--ink); border-radius: 2px; }
+
+.proj-dot-row { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+.proj-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.proj-dot.green { background: var(--green); }
+.proj-task { font-size: 12px; color: var(--stone); }
+
+/* ── INVOICE TABLE ── */
+.inv-table { display: flex; flex-direction: column; gap: 8px; }
+
+.inv-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  border: 1px solid var(--border-2);
+  border-radius: 10px;
+  padding: 14px 18px;
+}
+
+.inv-client { font-size: 14px; font-weight: 600; color: var(--ink); }
+.inv-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.inv-amt { font-size: 16px; font-weight: 700; color: var(--ink); text-align: right; }
+
+.inv-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+.badge-paid { background: #E8F5E2; color: #3A7A2A; }
+.badge-active { background: rgba(193,123,63,0.1); color: var(--terra); }
+
+/* ── TEAM CARDS ── */
+.member-list { display: flex; flex-direction: column; gap: 10px; }
+
+.member-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border-2);
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+
+.mem-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.mem-avatar.terra { background: var(--terra); }
+.mem-name { font-size: 16px; font-weight: 600; color: var(--ink); }
+.mem-role { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.mem-email { font-size: 12px; color: var(--faint); margin-top: 3px; }
+
+/* ── DEMO BANNER ── */
+.demo-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--ink);
+  color: rgba(255,255,255,0.7);
+  font-size: 12px;
+  text-align: center;
+  padding: 10px;
+  z-index: 100;
+  letter-spacing: 0.03em;
+}
+
+.demo-banner a {
+  color: #F5F0E8;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 6px;
+}
+
+.demo-banner a:hover { text-decoration: underline; }
+
+/* ── SCROLLBAR ── */
+.panel-body::-webkit-scrollbar { width: 4px; }
+.panel-body::-webkit-scrollbar-track { background: transparent; }
+.panel-body::-webkit-scrollbar-thumb { background: var(--faint); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">N</div>
+    <div>
+      <div class="logo-text">Company</div>
+      <div class="logo-sub">Command Center</div>
+    </div>
+  </div>
+
+  <div class="sidebar-search">
+    <svg class="nav-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="4"/><path d="M10 10l3 3"/></svg>
+    Search...
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">Views</div>
+    <div class="nav-item active" data-tab="overview">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5"/></svg>
+      Overview
+    </div>
+    <div class="nav-item" data-tab="finances">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm.75 4.5v.75h.75a.75.75 0 010 1.5H8.75V9h.75a.75.75 0 010 1.5h-.75v.75a.75.75 0 01-1.5 0V10.5H6.5a.75.75 0 010-1.5h.75V7.75H6.5a.75.75 0 010-1.5h.75V5.5a.75.75 0 011.5 0z"/></svg>
+      Finances
+    </div>
+    <div class="nav-item" data-tab="team">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M5.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM1 13.5A4.5 4.5 0 0110 13.5H1zM11 7a2 2 0 100-4 2 2 0 000 4zm1.5 6.5A3.5 3.5 0 008.5 13h6A3.5 3.5 0 0011 13.5z"/></svg>
+      Team
+    </div>
+  </div>
+
+  <div class="sidebar-user">
+    <div class="user-dot">J</div>
+    <div>
+      <div class="user-name">Jamie R.</div>
+      <div class="user-email">jamie@company.co</div>
+    </div>
+  </div>
+</div>
+
+<!-- Main content -->
+<div class="main">
+
+  <!-- Overview -->
+  <div class="panel active" id="dp-overview">
+    <div class="panel-header">
+      <div class="panel-meta">Updated Jun 3, 2026</div>
+      <div class="panel-title">Overview</div>
+      <div class="panel-sub">Company Property Group at a glance</div>
+    </div>
+    <div class="panel-body">
+      <div class="kpi-row">
+        <div class="kpi-tile">
+          <div class="kpi-val">3</div>
+          <div class="kpi-label">Active Projects</div>
+        </div>
+        <div class="kpi-tile">
+          <div class="kpi-val">8</div>
+          <div class="kpi-label">Workflows Live</div>
+        </div>
+        <div class="kpi-tile">
+          <div class="kpi-val">100%</div>
+          <div class="kpi-label">Uptime</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-title">Active Projects <span class="section-count">3 live</span></div>
+        <div class="project-grid">
+          <div class="project-card">
+            <div class="proj-client-tag">Oakdale Apartments</div>
+            <div class="proj-title">Tenant Onboarding</div>
+            <div class="proj-status">Live · Running</div>
+            <div class="proj-bar"><div class="proj-fill" style="width:100%"></div></div>
+            <div class="proj-dot-row"><div class="proj-dot green"></div><div class="proj-task">Application intake automated</div></div>
+            <div class="proj-dot-row"><div class="proj-dot green"></div><div class="proj-task">Welcome emails sending</div></div>
+          </div>
+          <div class="project-card">
+            <div class="proj-client-tag">Summit Commons</div>
+            <div class="proj-title">Maintenance Tracking</div>
+            <div class="proj-status">Live · Running</div>
+            <div class="proj-bar"><div class="proj-fill" style="width:100%"></div></div>
+            <div class="proj-dot-row"><div class="proj-dot green"></div><div class="proj-task">Ticket routing live</div></div>
+            <div class="proj-dot-row"><div class="proj-dot green"></div><div class="proj-task">Vendor notifications active</div></div>
+          </div>
+          <div class="project-card">
+            <div class="proj-client-tag">Riverside Lofts</div>
+            <div class="proj-title">Lease Renewals</div>
+            <div class="proj-status">Build · In progress</div>
+            <div class="proj-bar"><div class="proj-fill" style="width:55%"></div></div>
+            <div class="proj-dot-row"><div class="proj-dot green"></div><div class="proj-task">Reminder sequence built</div></div>
+            <div class="proj-dot-row"><div class="proj-dot green"></div><div class="proj-task">DocuSign integration pending</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Finances -->
+  <div class="panel" id="dp-finances">
+    <div class="panel-header">
+      <div class="panel-meta">Updated Jun 3, 2026</div>
+      <div class="panel-title">Finances</div>
+      <div class="panel-sub">Revenue overview</div>
+    </div>
+    <div class="panel-body">
+      <div class="kpi-row">
+        <div class="kpi-tile">
+          <div class="kpi-val">$6,600</div>
+          <div class="kpi-label">Total Billed</div>
+        </div>
+        <div class="kpi-tile">
+          <div class="kpi-val">$6,600</div>
+          <div class="kpi-label">Collected</div>
+        </div>
+        <div class="kpi-tile">
+          <div class="kpi-val">$150/mo</div>
+          <div class="kpi-label">Active Retainer</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-title">Invoices <span class="section-count">3</span></div>
+        <div class="inv-table">
+          <div class="inv-row">
+            <div>
+              <div class="inv-client">Oakdale Apartments</div>
+              <div class="inv-desc">Setup — Tenant Onboarding automation</div>
+            </div>
+            <div style="text-align:right">
+              <div class="inv-amt">$2,400</div>
+              <div class="inv-badge badge-paid">Paid</div>
+            </div>
+          </div>
+          <div class="inv-row">
+            <div>
+              <div class="inv-client">Summit Commons</div>
+              <div class="inv-desc">Setup — Maintenance Tracking system</div>
+            </div>
+            <div style="text-align:right">
+              <div class="inv-amt">$1,800</div>
+              <div class="inv-badge badge-paid">Paid</div>
+            </div>
+          </div>
+          <div class="inv-row">
+            <div>
+              <div class="inv-client">Riverside Lofts</div>
+              <div class="inv-desc">Monthly retainer — support & updates</div>
+            </div>
+            <div style="text-align:right">
+              <div class="inv-amt">$150/mo</div>
+              <div class="inv-badge badge-active">Active</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Team -->
+  <div class="panel" id="dp-team">
+    <div class="panel-header">
+      <div class="panel-meta">Updated Jun 3, 2026</div>
+      <div class="panel-title">Team</div>
+      <div class="panel-sub">Company Property Group</div>
+    </div>
+    <div class="panel-body">
+      <div>
+        <div class="section-title">Members <span class="section-count">3</span></div>
+        <div class="member-list">
+          <div class="member-card">
+            <div class="mem-avatar terra">J</div>
+            <div>
+              <div class="mem-name">Jamie Reynolds</div>
+              <div class="mem-role">Operations Director</div>
+              <div class="mem-email">jamie@company.co</div>
+            </div>
+          </div>
+          <div class="member-card">
+            <div class="mem-avatar">D</div>
+            <div>
+              <div class="mem-name">Dana Chen</div>
+              <div class="mem-role">Property Manager</div>
+              <div class="mem-email">dana@company.co</div>
+            </div>
+          </div>
+          <div class="member-card">
+            <div class="mem-avatar">M</div>
+            <div>
+              <div class="mem-name">Marcus Webb</div>
+              <div class="mem-role">Leasing Coordinator</div>
+              <div class="mem-email">marcus@company.co</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Demo banner -->
+<div class="demo-banner">
+  This is a demo of the Zacky Command Center.
+  <a href="https://zacky.co/#contact">Get yours →</a>
+</div>
+
+<script>
+(function() {
+  var navItems = document.querySelectorAll('.nav-item[data-tab]');
+  var panels = document.querySelectorAll('.panel');
+  navItems.forEach(function(item) {
+    item.addEventListener('click', function() {
+      navItems.forEach(function(n) { n.classList.remove('active'); });
+      panels.forEach(function(p) { p.classList.remove('active'); });
+      item.classList.add('active');
+      var panel = document.getElementById('dp-' + item.dataset.tab);
+      if (panel) panel.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>
