@@ -1,43 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="zacky">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zacky — OS Demo</title>
+<title>Zacky — Command Center Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --sidebar-w: 220px;
-  --header-h: 56px;
-  --ink: #1a1a1a;
-  --ink-2: #3a3a3a;
-  --stone: #5E5850;
-  --muted: #A89F94;
-  --faint: #C8C0B8;
-  --border: rgba(26,26,26,0.08);
-  --border-2: rgba(26,26,26,0.12);
-  --bg: #f0f0f0;
-  --surface: #FFFFFF;
-  --terra: #C17B3F;
-  --green: #4CAF7D;
-  --yellow: #E6B84A;
-  --red: #E05252;
+  --sidebar-w: 256px;
+  --topbar-h: 48px;
+
+  --bg:        #F5F5F5;
+  --surface:   #FFFFFF;
+  --surface-2: #EBEBEA;
+  --surface-3: #E3E3E2;
+
+  --border:    rgba(26,26,26,0.08);
+  --border-2:  rgba(26,26,26,0.13);
+
+  --text:      #1A1A1A;
+  --text-2:    #3A3A3A;
+  --text-3:    #6B6B6B;
+  --text-4:    #9A9A9A;
+  --text-5:    #C8C8C8;
+
+  --green:      #6BAB7A;
+  --green-soft: rgba(107,171,122,0.13);
+  --green-txt:  #3A7050;
+  --amber:      #D4A820;
+  --amber-soft: rgba(212,168,32,0.12);
+  --amber-txt:  #856800;
+  --red:        #C0504A;
+  --red-soft:   rgba(192,80,74,0.11);
+  --red-txt:    #8E2E2A;
+  --blue:       #2563EB;
+  --blue-soft:  rgba(37,99,235,0.09);
+  --blue-txt:   #1D4ED8;
+
+  --shadow-sm: 0 1px 3px rgba(26,26,26,0.07);
+  --shadow-md: 0 4px 18px rgba(26,26,26,0.09);
+
+  --r-sm: 6px;
+  --r:    10px;
+  --r-lg: 14px;
+
+  --banner-h: 74px;
 }
 
+/* ─── ZACKY THEME OVERRIDES ─── */
+html[data-theme="zacky"] {
+  --bg:        #F5F0E8;
+  --surface:   #FFFFFF;
+  --surface-2: #EDE8DE;
+  --surface-3: #E5DFD3;
+  --border:    rgba(26,26,26,0.07);
+  --border-2:  rgba(26,26,26,0.12);
+  --text-3:    #8A8178;
+  --text-4:    #C8C0B8;
+  --text-5:    #D8D0C8;
+  --zacky:      #B8844E;
+  --zacky-soft: rgba(184,132,78,0.11);
+  --zacky-txt:  #7A3D18;
+  --zacky-dark: #7A3D18;
+  --blue:       #B8844E;
+  --blue-soft:  rgba(184,132,78,0.11);
+  --blue-txt:   #7A3D18;
+}
+
+html[data-theme="zacky"] .demo-banner {
+  background: linear-gradient(110deg, #3D1A08 0%, #7A3D18 40%, #B8844E 100%);
+  box-shadow: 0 -4px 24px rgba(122,61,24,0.4);
+}
+
+html[data-theme="zacky"] .demo-banner-cta { color: #7A3D18; }
+
+html[data-theme="zacky"] .b-admin {
+  background: rgba(184,132,78,0.12);
+  color: #7A3D18;
+}
+
+html[data-theme="zacky"] .chat-msg.self .chat-msg-text {
+  background: rgba(184,132,78,0.1);
+  border-color: rgba(184,132,78,0.22);
+}
+
+html[data-theme="zacky"] .chat-send-btn { background: #B8844E; }
+html[data-theme="zacky"] .chat-unread   { background: #B8844E; }
+
+:root {
+  /* Zacky brand accent */
+  --zacky:      #6366F1;
+  --zacky-soft: rgba(99,102,241,0.09);
+  --zacky-txt:  #4338CA;
+  --zacky-dark: #4338CA;
+}
+
+html, body { height: 100%; overflow: hidden; }
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 13px;
+  color: var(--text);
   background: var(--bg);
-  color: var(--ink);
-  height: 100vh;
   display: flex;
-  overflow: hidden;
+  height: calc(100vh - var(--banner-h));
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
 }
 
-/* ── SIDEBAR ── */
+/* ─── SIDEBAR ─── */
 .sidebar {
   width: var(--sidebar-w);
   flex-shrink: 0;
@@ -45,56 +119,74 @@ body {
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: calc(100vh - var(--banner-h));
   overflow: hidden;
 }
 
-.sidebar-logo {
+.sidebar-brand {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 18px 16px 16px;
+  padding: 18px 18px 16px;
   border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
 }
 
-.logo-icon {
+.brand-mark {
   width: 32px;
   height: 32px;
-  background: var(--ink);
+  background: var(--zacky);
   border-radius: 7px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Lora', serif;
-  font-size: 16px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 17px;
   font-weight: 700;
-  color: #F5F0E8;
+  color: #F8F6F2;
   flex-shrink: 0;
+  letter-spacing: -0.5px;
 }
 
-.logo-text { font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.2; }
-.logo-sub { font-size: 10px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+.brand-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.brand-sub {
+  font-size: 10px;
+  color: var(--text-4);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 1px;
+}
 
 .sidebar-search {
-  margin: 10px 10px 4px;
-  background: rgba(26,26,26,0.04);
+  margin: 12px 12px 4px;
+  background: var(--bg);
   border: 1px solid var(--border-2);
-  border-radius: 7px;
-  padding: 8px 12px;
+  border-radius: var(--r-sm);
+  padding: 7px 11px;
   font-size: 12px;
-  color: var(--muted);
+  color: var(--text-4);
   display: flex;
   align-items: center;
   gap: 7px;
   cursor: default;
+  flex-shrink: 0;
 }
 
-.nav-group { padding: 12px 8px 0; }
-.nav-label {
+.search-icon { width: 13px; height: 13px; opacity: 0.45; flex-shrink: 0; }
+
+.nav-section { padding: 14px 10px 4px; }
+
+.nav-section-label {
   font-size: 10px;
-  font-weight: 600;
-  color: var(--faint);
-  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--text-5);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   padding: 0 8px;
   margin-bottom: 3px;
@@ -104,466 +196,2363 @@ body {
   display: flex;
   align-items: center;
   gap: 9px;
-  padding: 8px 10px;
-  border-radius: 6px;
+  padding: 7px 10px;
+  border-radius: var(--r-sm);
   font-size: 13px;
   font-weight: 500;
-  color: var(--stone);
+  color: var(--text-3);
   cursor: pointer;
-  transition: background 0.13s, color 0.13s;
+  transition: background 0.12s, color 0.12s;
   user-select: none;
+  margin-bottom: 1px;
 }
 
-.nav-item:hover { background: rgba(26,26,26,0.04); color: var(--ink); }
-.nav-item.active { background: rgba(26,26,26,0.07); color: var(--ink); font-weight: 600; }
+.nav-item:hover { background: var(--surface-2); color: var(--text-2); }
+.nav-item.active {
+  background: var(--zacky-soft);
+  color: var(--zacky-dark);
+  font-weight: 600;
+  box-shadow: inset 3px 0 0 var(--zacky);
+}
 
-.nav-icon { width: 15px; height: 15px; opacity: 0.45; flex-shrink: 0; }
-.nav-item.active .nav-icon { opacity: 0.85; }
+.nav-icon { width: 15px; height: 15px; opacity: 0.38; flex-shrink: 0; }
+.nav-item:hover .nav-icon { opacity: 0.55; }
+.nav-item.active .nav-icon { opacity: 1; }
+
+.sidebar-spacer { flex: 1; }
 
 .sidebar-user {
-  margin-top: auto;
   padding: 14px 16px;
   border-top: 1px solid var(--border);
   display: flex;
   align-items: center;
   gap: 10px;
-}
-
-.user-dot {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--terra);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  color: #fff;
   flex-shrink: 0;
 }
 
-.user-name { font-size: 13px; font-weight: 600; color: var(--ink); }
-.user-email { font-size: 11px; color: var(--muted); }
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--zacky);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  letter-spacing: 0.03em;
+}
 
-/* ── MAIN ── */
+.user-name  { font-size: 13px; font-weight: 600; color: var(--text); }
+.user-email { font-size: 11px; color: var(--text-4); }
+
+/* ─── MAIN ─── */
 .main {
   flex: 1;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: calc(100vh - var(--banner-h));
   overflow: hidden;
-  position: relative;
+  min-width: 0;
 }
 
-/* ── PANEL ── */
-.panel { display: none; flex: 1; flex-direction: column; overflow: hidden; }
+.topbar {
+  height: var(--topbar-h);
+  flex-shrink: 0;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+}
+
+.topbar-crumbs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-4);
+}
+
+.crumb-sep { opacity: 0.4; }
+.crumb-active { color: var(--text-2); font-weight: 500; }
+
+.topbar-right { display: flex; align-items: center; gap: 14px; }
+
+.topbar-date { font-size: 11px; color: var(--text-4); letter-spacing: 0.03em; }
+
+.sidebar-theme {
+  padding: 10px 16px 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.sidebar-theme-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-4);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.theme-toggle {
+  display: flex;
+  gap: 3px;
+  background: var(--surface-2);
+  border-radius: 20px;
+  padding: 3px;
+  border: 1px solid var(--border-2);
+}
+
+.theme-btn {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  color: var(--text-4);
+  background: transparent;
+  letter-spacing: 0.03em;
+  font-family: inherit;
+}
+
+.theme-btn.active {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+  font-weight: 700;
+}
+
+.demo-chip {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--amber-soft);
+  color: var(--amber-txt);
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+
+/* ─── PANELS ─── */
+.panels { flex: 1; overflow: hidden; }
+.panel { display: none; height: 100%; flex-direction: column; }
 .panel.active { display: flex; }
 
 .panel-header {
-  padding: 20px 28px 18px;
-  border-bottom: 1px solid var(--border);
+  padding: 22px 28px 20px;
   flex-shrink: 0;
   background: var(--surface);
+  border-bottom: 1px solid var(--border);
 }
 
-.panel-meta { font-size: 11px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 3px; }
-.panel-title { font-family: 'Lora', serif; font-size: 26px; font-weight: 700; color: var(--ink); line-height: 1; margin-bottom: 3px; }
-.panel-sub { font-size: 13px; color: var(--muted); }
+.panel-eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-4);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.panel-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.panel-sub { font-size: 13px; color: var(--text-3); }
 
 .panel-body {
   flex: 1;
   overflow-y: auto;
-  padding: 24px 28px;
+  padding: 24px 28px 68px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 28px;
 }
 
-/* ── KPI ROW ── */
-.kpi-row { display: flex; gap: 12px; }
+.panel-body::-webkit-scrollbar { width: 4px; }
+.panel-body::-webkit-scrollbar-track { background: transparent; }
+.panel-body::-webkit-scrollbar-thumb { background: var(--text-5); border-radius: 2px; }
+
+/* ─── KPI ROW ─── */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
 .kpi-tile {
-  flex: 1;
   background: var(--surface);
   border: 1px solid var(--border-2);
-  border-radius: 10px;
+  border-top: 2px solid var(--zacky);
+  border-radius: var(--r);
   padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
 }
-.kpi-val { font-size: 32px; font-weight: 700; color: var(--ink); line-height: 1; margin-bottom: 5px; }
-.kpi-label { font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
 
-/* ── SECTION ── */
-.section-title {
-  font-size: 11px;
+.kpi-val {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 5px;
+  letter-spacing: -0.5px;
+}
+
+.kpi-val.mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 21px;
+  letter-spacing: -0.3px;
+}
+
+.kpi-label {
+  font-size: 10px;
   font-weight: 600;
-  color: var(--muted);
-  letter-spacing: 0.1em;
+  color: var(--text-4);
+  letter-spacing: 0.09em;
   text-transform: uppercase;
-  margin-bottom: 10px;
+}
+
+.kpi-delta { font-size: 11px; color: var(--green-txt); margin-top: 5px; }
+
+/* ─── SECTION HEADER ─── */
+.section-head {
   display: flex;
   align-items: center;
+  margin-bottom: 12px;
   gap: 8px;
 }
 
-.section-count {
-  background: rgba(168,159,148,0.15);
-  color: var(--muted);
-  font-size: 10px;
-  padding: 2px 7px;
-  border-radius: 10px;
-  font-weight: 500;
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
-/* ── PROJECT CARDS ── */
-.project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.section-badge {
+  font-size: 10px;
+  font-weight: 500;
+  background: var(--surface-2);
+  color: var(--text-3);
+  padding: 2px 7px;
+  border-radius: 10px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* ─── WHAT'S NEXT CONVEYOR ─── */
+.conveyor {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.conveyor::-webkit-scrollbar { height: 3px; }
+.conveyor::-webkit-scrollbar-thumb { background: var(--text-5); border-radius: 2px; }
+
+.next-card {
+  min-width: 208px;
+  max-width: 208px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r);
+  padding: 13px 15px;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+}
+
+.next-card-tag {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-4);
+  margin-bottom: 6px;
+}
+
+.next-card-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.35;
+  padding-right: 18px;
+}
+
+.next-card-meta {
+  font-size: 11px;
+  color: var(--text-3);
+  margin-top: 7px;
+}
+
+.next-dismiss {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.45;
+  transition: opacity 0.12s, background 0.12s;
+  font-size: 11px;
+  color: var(--text-2);
+  line-height: 1;
+  padding: 0;
+}
+
+.next-dismiss:hover { opacity: 1; background: var(--surface-3); }
+
+/* ─── PROJECT GRID ─── */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
 
 .project-card {
   background: var(--surface);
   border: 1px solid var(--border-2);
-  border-radius: 10px;
-  padding: 16px 18px;
+  border-radius: var(--r);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
 }
 
-.proj-client-tag {
-  display: inline-block;
+.proj-client {
   font-size: 10px;
   font-weight: 600;
-  color: var(--muted);
+  color: var(--text-4);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  border: 1px solid rgba(168,159,148,0.35);
+  border: 1px solid var(--border-2);
+  display: inline-block;
   padding: 2px 7px;
   border-radius: 3px;
   margin-bottom: 8px;
 }
 
-.proj-title { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
-.proj-status { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+.proj-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+  line-height: 1.3;
+}
 
-.proj-bar { height: 3px; background: rgba(26,26,26,0.07); border-radius: 2px; margin-bottom: 10px; }
-.proj-fill { height: 100%; background: var(--ink); border-radius: 2px; }
+.proj-status-line {
+  font-size: 11px;
+  color: var(--text-3);
+  margin-bottom: 13px;
+}
 
-.proj-dot-row { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
-.proj-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-.proj-dot.green { background: var(--green); }
-.proj-task { font-size: 12px; color: var(--stone); }
+.phase-track {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 5px;
+}
 
-/* ── INVOICE TABLE ── */
-.inv-table { display: flex; flex-direction: column; gap: 8px; }
+.phase-block {
+  flex: 1;
+  height: 7px;
+  border-radius: 2px;
+  background: rgba(26,26,26,0.09);
+}
 
-.inv-row {
+.phase-block.done   { background: var(--blue); }
+.phase-block.active { background: var(--blue); opacity: 0.5; }
+
+.phase-names {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+
+.phase-name {
+  flex: 1;
+  font-size: 8.5px;
+  font-weight: 500;
+  color: var(--text-5);
+  text-align: center;
+}
+
+.milestone {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin-bottom: 5px;
+  font-size: 12px;
+  color: var(--text-2);
+  line-height: 1.4;
+}
+
+.m-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.m-dot.open {
+  background: transparent;
+  border: 1.5px solid var(--border-2);
+}
+
+/* ─── WORKFLOW GRID ─── */
+.workflow-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.workflow-card {
+  background: var(--surface);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-sm);
+}
+
+.wf-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.wf-name   { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.wf-client { font-size: 11px; color: var(--text-3); }
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.dot-green { background: var(--green); }
+.dot-amber { background: var(--amber); }
+.dot-red   { background: var(--red); }
+
+.hm-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--text-4);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.heatmap { display: flex; gap: 2px; }
+
+.hm-cell {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.hm-g { background: var(--green); }
+.hm-a { background: var(--amber); }
+.hm-r { background: var(--red); }
+.hm-e { background: rgba(26,26,26,0.09); }
+
+.wf-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--surface);
-  border: 1px solid var(--border-2);
-  border-radius: 10px;
-  padding: 14px 18px;
+  margin-top: 9px;
 }
 
-.inv-client { font-size: 14px; font-weight: 600; color: var(--ink); }
-.inv-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
-.inv-amt { font-size: 16px; font-weight: 700; color: var(--ink); text-align: right; }
+.wf-runs {
+  font-size: 11px;
+  color: var(--text-3);
+}
 
-.inv-badge {
-  display: inline-block;
+.wf-runs strong {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-2);
+}
+
+/* ─── BADGES ─── */
+.badge {
+  display: inline-flex;
+  align-items: center;
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.07em;
   text-transform: uppercase;
   padding: 3px 8px;
   border-radius: 4px;
-  margin-top: 4px;
+  white-space: nowrap;
 }
 
-.badge-paid { background: #E8F5E2; color: #3A7A2A; }
-.badge-active { background: rgba(193,123,63,0.1); color: var(--terra); }
+.b-paid     { background: var(--green-soft);  color: var(--green-txt); }
+.b-sent     { background: var(--blue-soft);   color: var(--blue-txt);  }
+.b-overdue  { background: var(--red-soft);    color: var(--red-txt);   }
+.b-draft    { background: rgba(26,26,26,0.06); color: var(--text-3);  }
+.b-retainer { background: var(--amber-soft);  color: var(--amber-txt); }
+.b-healthy  { background: var(--green-soft);  color: var(--green-txt); }
+.b-warning  { background: var(--amber-soft);  color: var(--amber-txt); }
+.b-admin    { background: rgba(99,102,241,0.1); color: #4338CA;        }
+.b-member   { background: rgba(26,26,26,0.06); color: var(--text-3);  }
 
-/* ── TEAM CARDS ── */
+/* ─── INVOICE TABLE ─── */
+.inv-table {
+  background: var(--surface);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.inv-thead {
+  display: grid;
+  grid-template-columns: 88px 1fr 110px 110px 110px;
+  padding: 10px 20px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.inv-th {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-4);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.inv-row {
+  display: grid;
+  grid-template-columns: 88px 1fr 110px 110px 110px;
+  padding: 13px 20px;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+  transition: background 0.1s;
+}
+
+.inv-row:last-child { border-bottom: none; }
+.inv-row:hover { background: var(--surface-2); }
+
+.inv-cell { font-size: 13px; color: var(--text-2); padding-right: 10px; }
+
+.inv-name { font-weight: 600; color: var(--text); }
+.inv-desc { font-size: 11px; color: var(--text-4); margin-top: 1px; }
+
+.inv-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.inv-amt {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  text-align: right;
+  padding-right: 0;
+}
+
+/* ─── TEAM ─── */
 .member-list { display: flex; flex-direction: column; gap: 10px; }
 
 .member-card {
+  background: var(--surface);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r);
+  padding: 18px 20px;
   display: flex;
   align-items: center;
   gap: 16px;
-  background: var(--surface);
-  border: 1px solid var(--border-2);
-  border-radius: 10px;
-  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
 }
 
 .mem-avatar {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: var(--ink);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  letter-spacing: 0.03em;
+}
+
+.mem-name  { font-size: 15px; font-weight: 600; color: var(--text); }
+.mem-role  { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+.mem-email {
+  font-size: 11px;
+  color: var(--text-4);
+  margin-top: 3px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.mem-right { margin-left: auto; }
+
+/* ─── PROJECT CARDS CLICKABLE ─── */
+.project-card {
+  cursor: pointer;
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+.project-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+/* ─── DRAWER ─── */
+.drawer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(26,26,26,0.18);
+  z-index: 300;
+  backdrop-filter: blur(1px);
+}
+
+.drawer-overlay.open { display: block; }
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 420px;
+  background: var(--surface);
+  border-left: 1px solid var(--border-2);
+  box-shadow: -8px 0 40px rgba(26,26,26,0.12);
+  z-index: 301;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.22s cubic-bezier(0.4,0,0.2,1);
+  overflow: hidden;
+}
+
+.drawer.open { transform: translateX(0); }
+
+.drawer-header {
+  padding: 22px 24px 18px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.drawer-header-left { flex: 1; min-width: 0; }
+
+.drawer-client-tag {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-4);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--border-2);
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 3px;
+  margin-bottom: 7px;
+}
+
+.drawer-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 5px;
+}
+
+.drawer-status { font-size: 12px; color: var(--text-3); }
+
+.drawer-close {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--text-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.12s, color 0.12s;
+  line-height: 1;
+  padding: 0;
+  margin-top: 2px;
+}
+
+.drawer-close:hover { background: var(--surface-3); color: var(--text); }
+
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 22px 24px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.drawer-body::-webkit-scrollbar { width: 3px; }
+.drawer-body::-webkit-scrollbar-thumb { background: var(--text-5); border-radius: 2px; }
+
+.drawer-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-4);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+/* Phase in drawer */
+.drawer-phase-track {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 5px;
+}
+
+.drawer-phase-block {
+  flex: 1;
+  height: 8px;
+  border-radius: 2px;
+  background: rgba(26,26,26,0.09);
+}
+
+.drawer-phase-block.done   { background: var(--blue); }
+.drawer-phase-block.active { background: var(--blue); opacity: 0.5; }
+
+.drawer-phase-names {
+  display: flex;
+  gap: 4px;
+}
+
+.drawer-phase-name {
+  flex: 1;
+  font-size: 9px;
+  font-weight: 500;
+  color: var(--text-4);
+  text-align: center;
+}
+
+/* Meta row */
+.drawer-meta-row {
+  display: flex;
+  gap: 12px;
+}
+
+.drawer-meta-item {
+  flex: 1;
+  background: var(--surface-2);
+  border-radius: var(--r-sm);
+  padding: 10px 12px;
+}
+
+.drawer-meta-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--text-4);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.drawer-meta-val {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Milestones */
+.drawer-milestone {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.4;
+}
+
+.drawer-milestone:last-child { border-bottom: none; }
+
+.dm-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.dm-dot.open {
+  background: transparent;
+  border: 1.5px solid var(--border-2);
+}
+
+/* Tasks */
+.drawer-task {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.4;
+}
+
+.drawer-task:last-child { border-bottom: none; }
+
+.task-check {
+  width: 15px;
+  height: 15px;
+  border-radius: 4px;
+  border: 1.5px solid var(--border-2);
+  flex-shrink: 0;
+  margin-top: 2px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.task-check.done {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+  font-size: 9px;
+}
+
+.task-text { flex: 1; }
+.task-text.done-text { color: var(--text-4); text-decoration: line-through; }
+.task-assignee { font-size: 11px; color: var(--text-4); margin-top: 2px; }
+
+/* Workflows chip */
+.wf-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-2);
+  border-radius: 20px;
+  padding: 4px 10px 4px 8px;
+  font-size: 12px;
+  color: var(--text-2);
+  margin-right: 6px;
+  margin-bottom: 6px;
+}
+
+.wf-chip-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  flex-shrink: 0;
+}
+
+.wf-chip-dot.amber { background: var(--amber); }
+
+/* Note box */
+.note-box {
+  background: var(--surface-2);
+  border-radius: var(--r-sm);
+  padding: 12px 14px;
+  font-size: 12px;
+  color: var(--text-2);
+  line-height: 1.6;
+  border-left: 3px solid var(--border-2);
+}
+
+/* ─── CHAT ─── */
+.chat-layout {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+}
+
+.chat-list {
+  width: 220px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.chat-list-header {
+  padding: 16px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.chat-list-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-4);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.chat-thread-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  cursor: pointer;
+  transition: background 0.1s;
+  border-radius: 0;
+  position: relative;
+}
+
+.chat-thread-item:hover { background: var(--surface-2); }
+
+.chat-thread-item.active {
+  background: var(--zacky-soft);
+  box-shadow: inset 3px 0 0 var(--zacky);
+}
+
+.chat-thread-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
   font-weight: 700;
   color: #fff;
   flex-shrink: 0;
 }
 
-.mem-avatar.terra { background: var(--terra); }
-.mem-name { font-size: 16px; font-weight: 600; color: var(--ink); }
-.mem-role { font-size: 13px; color: var(--muted); margin-top: 2px; }
-.mem-email { font-size: 12px; color: var(--faint); margin-top: 3px; }
+.chat-thread-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.2;
+}
 
-/* ── DEMO BANNER ── */
+.chat-thread-preview {
+  font-size: 11px;
+  color: var(--text-4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
+.chat-thread-item.active .chat-thread-name { color: var(--zacky-dark); }
+
+.chat-unread {
+  width: 7px;
+  height: 7px;
+  background: var(--zacky);
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.chat-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.chat-header {
+  padding: 14px 20px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.chat-header-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.chat-header-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.chat-header-status { font-size: 11px; color: var(--text-4); margin-top: 1px; }
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.chat-messages::-webkit-scrollbar { width: 3px; }
+.chat-messages::-webkit-scrollbar-thumb { background: var(--text-5); border-radius: 2px; }
+
+.chat-day-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 14px 0 10px;
+}
+
+.chat-day-line { flex: 1; height: 1px; background: var(--border); }
+.chat-day-label { font-size: 10px; font-weight: 600; color: var(--text-4); letter-spacing: 0.08em; text-transform: uppercase; }
+
+.chat-msg {
+  display: flex;
+  gap: 10px;
+  padding: 4px 0;
+}
+
+.chat-msg-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.chat-msg-body { flex: 1; min-width: 0; }
+
+.chat-msg-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  margin-bottom: 3px;
+}
+
+.chat-msg-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.chat-msg-time { font-size: 10px; color: var(--text-4); }
+
+.chat-msg-text {
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.5;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0 var(--r) var(--r) var(--r);
+  padding: 9px 13px;
+  display: inline-block;
+  max-width: 520px;
+}
+
+.chat-msg.self { flex-direction: row-reverse; }
+.chat-msg.self .chat-msg-body { align-items: flex-end; display: flex; flex-direction: column; }
+.chat-msg.self .chat-msg-meta { flex-direction: row-reverse; }
+.chat-msg.self .chat-msg-text {
+  background: var(--zacky-soft);
+  border-color: rgba(201,151,58,0.2);
+  color: var(--text);
+  border-radius: var(--r) 0 var(--r) var(--r);
+}
+
+.chat-input-area {
+  padding: 14px 20px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.chat-input-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r);
+  padding: 9px 14px;
+}
+
+.chat-input-placeholder { font-size: 13px; color: var(--text-4); flex: 1; }
+
+.chat-send-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r-sm);
+  background: var(--zacky);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ─── DEMO BANNER ─── */
 .demo-banner {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background: var(--ink);
-  color: rgba(255,255,255,0.7);
-  font-size: 12px;
+  height: var(--banner-h);
+  background: linear-gradient(110deg, #2563EB 0%, #6366F1 55%, #8B5CF6 100%);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 0 32px;
+  box-shadow: 0 -4px 24px rgba(99,102,241,0.35);
+}
+
+.demo-banner-copy {
   text-align: center;
-  padding: 10px;
-  z-index: 100;
-  letter-spacing: 0.03em;
 }
 
-.demo-banner a {
-  color: #F5F0E8;
-  font-weight: 600;
+.demo-banner-headline {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.01em;
+  margin-bottom: 3px;
+}
+
+.demo-banner-sub {
+  font-size: 12px;
+  color: rgba(255,255,255,0.72);
+  letter-spacing: 0.01em;
+}
+
+.demo-banner-cta {
+  display: inline-flex;
+  align-items: center;
+  background: #ffffff;
+  color: #4338CA;
+  font-size: 13px;
+  font-weight: 700;
   text-decoration: none;
-  margin-left: 6px;
+  padding: 10px 22px;
+  border-radius: var(--r-sm);
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.15s, transform 0.12s;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
 }
 
-.demo-banner a:hover { text-decoration: underline; }
-
-/* ── SCROLLBAR ── */
-.panel-body::-webkit-scrollbar { width: 4px; }
-.panel-body::-webkit-scrollbar-track { background: transparent; }
-.panel-body::-webkit-scrollbar-thumb { background: var(--faint); border-radius: 2px; }
+.demo-banner-cta:hover {
+  background: #F0F0FF;
+  transform: translateY(-1px);
+}
 </style>
 </head>
 <body>
 
-<!-- Sidebar -->
-<div class="sidebar">
-  <div class="sidebar-logo">
-    <div class="logo-icon">N</div>
+<!-- ═══ SIDEBAR ═══ -->
+<aside class="sidebar">
+
+  <div class="sidebar-brand">
+    <div class="brand-mark">B</div>
     <div>
-      <div class="logo-text">Company</div>
-      <div class="logo-sub">Command Center</div>
+      <div class="brand-name">Business</div>
+      <div class="brand-sub">Command Center</div>
     </div>
   </div>
 
   <div class="sidebar-search">
-    <svg class="nav-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="4"/><path d="M10 10l3 3"/></svg>
+    <svg class="search-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5.5" cy="5.5" r="3.5"/><path d="M9 9l3 3"/></svg>
     Search...
   </div>
 
-  <div class="nav-group">
-    <div class="nav-label">Views</div>
+  <div class="nav-section">
+    <div class="nav-section-label">Operations</div>
+
     <div class="nav-item active" data-tab="overview">
-      <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5"/></svg>
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor">
+        <rect x="1.5" y="1.5" width="5.5" height="5.5" rx="1.5"/>
+        <rect x="9" y="1.5" width="5.5" height="5.5" rx="1.5"/>
+        <rect x="1.5" y="9" width="5.5" height="5.5" rx="1.5"/>
+        <rect x="9" y="9" width="5.5" height="5.5" rx="1.5"/>
+      </svg>
       Overview
     </div>
-    <div class="nav-item" data-tab="finances">
-      <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm.75 4.5v.75h.75a.75.75 0 010 1.5H8.75V9h.75a.75.75 0 010 1.5h-.75v.75a.75.75 0 01-1.5 0V10.5H6.5a.75.75 0 010-1.5h.75V7.75H6.5a.75.75 0 010-1.5h.75V5.5a.75.75 0 011.5 0z"/></svg>
-      Finances
+
+    <div class="nav-item" data-tab="chat">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 10.5a1.5 1.5 0 01-1.5 1.5H4L1 15V3.5A1.5 1.5 0 012.5 2h10A1.5 1.5 0 0114 3.5v7z"/>
+      </svg>
+      Chat
     </div>
+
+    <div class="nav-item" data-tab="projects">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="8,1.5 14.5,5 8,8.5 1.5,5"/>
+        <polyline points="1.5,9.5 8,13 14.5,9.5"/>
+      </svg>
+      Projects
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Finances</div>
+
+    <div class="nav-item" data-tab="invoices">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 1.5H4a1 1 0 00-1 1v11a1 1 0 001 1h8a1 1 0 001-1V5.5L9 1.5z"/>
+        <polyline points="9,1.5 9,5.5 13,5.5"/>
+        <line x1="5" y1="8.5" x2="11" y2="8.5"/>
+        <line x1="5" y1="11" x2="9" y2="11"/>
+      </svg>
+      Invoices
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">People</div>
+
     <div class="nav-item" data-tab="team">
-      <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M5.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM1 13.5A4.5 4.5 0 0110 13.5H1zM11 7a2 2 0 100-4 2 2 0 000 4zm1.5 6.5A3.5 3.5 0 008.5 13h6A3.5 3.5 0 0011 13.5z"/></svg>
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.5 14v-1.25A2.25 2.25 0 008.25 10.5h-4.5A2.25 2.25 0 001.5 12.75V14"/>
+        <circle cx="6" cy="6" r="2.5"/>
+        <path d="M14.5 14v-1.167A2.333 2.333 0 0012.833 10.5"/>
+        <path d="M10.5 2.6A2.5 2.5 0 0112.5 5a2.5 2.5 0 01-2 2.45"/>
+      </svg>
       Team
     </div>
   </div>
 
-  <div class="sidebar-user">
-    <div class="user-dot">J</div>
-    <div>
-      <div class="user-name">Jamie R.</div>
-      <div class="user-email">jamie@company.co</div>
+  <div class="sidebar-spacer"></div>
+
+  <div class="sidebar-theme">
+    <span class="sidebar-theme-label">Theme</span>
+    <div class="theme-toggle">
+      <button class="theme-btn active" onclick="setTheme('zacky')" id="btn-zacky">Zacky</button>
+      <button class="theme-btn" onclick="setTheme('default')" id="btn-default">Blue</button>
     </div>
   </div>
-</div>
 
-<!-- Main content -->
+  <div class="sidebar-user">
+    <div class="user-avatar">AM</div>
+    <div>
+      <div class="user-name">Alex Morgan</div>
+      <div class="user-email">alex@business.co</div>
+    </div>
+  </div>
+
+</aside>
+
+
+<!-- ═══ MAIN ═══ -->
 <div class="main">
 
-  <!-- Overview -->
-  <div class="panel active" id="dp-overview">
-    <div class="panel-header">
-      <div class="panel-meta">Updated Jun 3, 2026</div>
-      <div class="panel-title">Overview</div>
-      <div class="panel-sub">Company Property Group at a glance</div>
+  <div class="topbar">
+    <div class="topbar-crumbs">
+      <span>Business</span>
+      <span class="crumb-sep">/</span>
+      <span class="crumb-active" id="js-crumb">Overview</span>
     </div>
-    <div class="panel-body">
-      <div class="kpi-row">
-        <div class="kpi-tile">
-          <div class="kpi-val">3</div>
-          <div class="kpi-label">Active Projects</div>
-        </div>
-        <div class="kpi-tile">
-          <div class="kpi-val">8</div>
-          <div class="kpi-label">Workflows Live</div>
-        </div>
-        <div class="kpi-tile">
-          <div class="kpi-val">100%</div>
-          <div class="kpi-label">Uptime</div>
-        </div>
-      </div>
-
-      <div>
-        <div class="section-title">Active Projects <span class="section-count">3 live</span></div>
-        <div class="project-grid">
-          <div class="project-card">
-            <div class="proj-client-tag">Oakdale Apartments</div>
-            <div class="proj-title">Tenant Onboarding</div>
-            <div class="proj-status">Live · Running</div>
-            <div class="proj-bar"><div class="proj-fill" style="width:100%"></div></div>
-            <div class="proj-dot-row"><div class="proj-dot green"></div><div class="proj-task">Application intake automated</div></div>
-            <div class="proj-dot-row"><div class="proj-dot green"></div><div class="proj-task">Welcome emails sending</div></div>
-          </div>
-          <div class="project-card">
-            <div class="proj-client-tag">Summit Commons</div>
-            <div class="proj-title">Maintenance Tracking</div>
-            <div class="proj-status">Live · Running</div>
-            <div class="proj-bar"><div class="proj-fill" style="width:100%"></div></div>
-            <div class="proj-dot-row"><div class="proj-dot green"></div><div class="proj-task">Ticket routing live</div></div>
-            <div class="proj-dot-row"><div class="proj-dot green"></div><div class="proj-task">Vendor notifications active</div></div>
-          </div>
-          <div class="project-card">
-            <div class="proj-client-tag">Riverside Lofts</div>
-            <div class="proj-title">Lease Renewals</div>
-            <div class="proj-status">Build · In progress</div>
-            <div class="proj-bar"><div class="proj-fill" style="width:55%"></div></div>
-            <div class="proj-dot-row"><div class="proj-dot green"></div><div class="proj-task">Reminder sequence built</div></div>
-            <div class="proj-dot-row"><div class="proj-dot green"></div><div class="proj-task">DocuSign integration pending</div></div>
-          </div>
-        </div>
-      </div>
+    <div class="topbar-right">
+      <span class="topbar-date">Jun 11, 2026</span>
+      <span class="demo-chip">Demo</span>
     </div>
   </div>
 
-  <!-- Finances -->
-  <div class="panel" id="dp-finances">
-    <div class="panel-header">
-      <div class="panel-meta">Updated Jun 3, 2026</div>
-      <div class="panel-title">Finances</div>
-      <div class="panel-sub">Revenue overview</div>
-    </div>
-    <div class="panel-body">
-      <div class="kpi-row">
-        <div class="kpi-tile">
-          <div class="kpi-val">$6,600</div>
-          <div class="kpi-label">Total Billed</div>
-        </div>
-        <div class="kpi-tile">
-          <div class="kpi-val">$6,600</div>
-          <div class="kpi-label">Collected</div>
-        </div>
-        <div class="kpi-tile">
-          <div class="kpi-val">$150/mo</div>
-          <div class="kpi-label">Active Retainer</div>
-        </div>
-      </div>
+  <div class="panels">
 
-      <div>
-        <div class="section-title">Invoices <span class="section-count">3</span></div>
-        <div class="inv-table">
-          <div class="inv-row">
-            <div>
-              <div class="inv-client">Oakdale Apartments</div>
-              <div class="inv-desc">Setup — Tenant Onboarding automation</div>
+
+    <!-- ══════════ OVERVIEW ══════════ -->
+    <div class="panel active" id="dp-overview">
+      <div class="panel-header">
+        <div class="panel-eyebrow">Updated Jun 11, 2026</div>
+        <div class="panel-title">Overview</div>
+        <div class="panel-sub">Business at a glance</div>
+      </div>
+      <div class="panel-body">
+
+        <div class="kpi-row">
+          <div class="kpi-tile">
+            <div class="kpi-val">3</div>
+            <div class="kpi-label">Active Clients</div>
+          </div>
+          <div class="kpi-tile">
+            <div class="kpi-val">5</div>
+            <div class="kpi-label">Automations Running</div>
+          </div>
+          <div class="kpi-tile">
+            <div class="kpi-val mono">$950</div>
+            <div class="kpi-label">MRR Locked</div>
+            <div class="kpi-delta">↑ from $750 last month</div>
+          </div>
+          <div class="kpi-tile">
+            <div class="kpi-val" style="color:var(--amber)">1</div>
+            <div class="kpi-label">Exception</div>
+          </div>
+        </div>
+
+        <!-- What's Next -->
+        <div>
+          <div class="section-head">
+            <div class="section-label">What's Next</div>
+            <span class="section-badge" id="conveyor-count">4 items</span>
+          </div>
+          <div class="conveyor" id="conveyor">
+
+            <div class="next-card">
+              <button class="next-dismiss" onclick="dismissCard(this)">×</button>
+              <div class="next-card-tag">Follow-up</div>
+              <div class="next-card-text">Send kick-off summary to Summit Strategy</div>
+              <div class="next-card-meta">Summit Strategy · Due today</div>
             </div>
-            <div style="text-align:right">
-              <div class="inv-amt">$2,400</div>
-              <div class="inv-badge badge-paid">Paid</div>
+
+            <div class="next-card">
+              <button class="next-dismiss" onclick="dismissCard(this)">×</button>
+              <div class="next-card-tag">Review</div>
+              <div class="next-card-text">Check monthly report output for Harlow & Co</div>
+              <div class="next-card-meta">Harlow & Co · Jun 12</div>
+            </div>
+
+            <div class="next-card">
+              <button class="next-dismiss" onclick="dismissCard(this)">×</button>
+              <div class="next-card-tag">Invoice</div>
+              <div class="next-card-text">Update retainer amount for Elevation Group</div>
+              <div class="next-card-meta">Elevation Group · Jun 15</div>
+            </div>
+
+            <div class="next-card">
+              <button class="next-dismiss" onclick="dismissCard(this)">×</button>
+              <div class="next-card-tag">Automation</div>
+              <div class="next-card-text">Investigate 2 skipped records in CRM sync</div>
+              <div class="next-card-meta">Harlow & Co · Flagged</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- In-Flight Projects -->
+        <div>
+          <div class="section-head">
+            <div class="section-label">In Flight</div>
+            <span class="section-badge">3 projects</span>
+          </div>
+          <div class="project-grid">
+
+            <div class="project-card" onclick="openProject('crm')">
+              <div class="proj-client">Harlow & Co</div>
+              <div class="proj-name">CRM Integration</div>
+              <div class="proj-status-line">Live · Running</div>
+              <div class="phase-track">
+                <div class="phase-block done"></div>
+                <div class="phase-block done"></div>
+                <div class="phase-block done"></div>
+                <div class="phase-block done"></div>
+                <div class="phase-block done"></div>
+              </div>
+              <div class="phase-names">
+                <div class="phase-name">Scope</div>
+                <div class="phase-name">Build</div>
+                <div class="phase-name">Test</div>
+                <div class="phase-name">Deploy</div>
+                <div class="phase-name">Live</div>
+              </div>
+              <div class="milestone"><div class="m-dot"></div>Lead intake syncing to HubSpot</div>
+              <div class="milestone"><div class="m-dot"></div>Deal stage updates running nightly</div>
+            </div>
+
+            <div class="project-card" onclick="openProject('reporting')">
+              <div class="proj-client">Elevation Group</div>
+              <div class="proj-name">Reporting Dashboard</div>
+              <div class="proj-status-line">Testing · In progress</div>
+              <div class="phase-track">
+                <div class="phase-block done"></div>
+                <div class="phase-block done"></div>
+                <div class="phase-block active"></div>
+                <div class="phase-block"></div>
+                <div class="phase-block"></div>
+              </div>
+              <div class="phase-names">
+                <div class="phase-name">Scope</div>
+                <div class="phase-name">Build</div>
+                <div class="phase-name">Test</div>
+                <div class="phase-name">Deploy</div>
+                <div class="phase-name">Live</div>
+              </div>
+              <div class="milestone"><div class="m-dot"></div>Data pipeline connected</div>
+              <div class="milestone"><div class="m-dot open"></div>Client sign-off on layout</div>
+            </div>
+
+            <div class="project-card" onclick="openProject('onboarding')">
+              <div class="proj-client">Summit Strategy</div>
+              <div class="proj-name">Onboarding Automation</div>
+              <div class="proj-status-line">Build · Just started</div>
+              <div class="phase-track">
+                <div class="phase-block done"></div>
+                <div class="phase-block active"></div>
+                <div class="phase-block"></div>
+                <div class="phase-block"></div>
+                <div class="phase-block"></div>
+              </div>
+              <div class="phase-names">
+                <div class="phase-name">Scope</div>
+                <div class="phase-name">Build</div>
+                <div class="phase-name">Test</div>
+                <div class="phase-name">Deploy</div>
+                <div class="phase-name">Live</div>
+              </div>
+              <div class="milestone"><div class="m-dot"></div>Discovery call complete</div>
+              <div class="milestone"><div class="m-dot open"></div>Welcome sequence drafted</div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ══════════ WORKFLOWS ══════════ -->
+    <div class="panel" id="dp-chat">
+      <div class="panel-header">
+        <div class="panel-eyebrow">Internal & client messaging</div>
+        <div class="panel-title">Chat</div>
+        <div class="panel-sub">Conversations with your team and clients</div>
+      </div>
+      <div class="chat-layout">
+
+        <!-- Conversation list -->
+        <div class="chat-list">
+          <div class="chat-list-header">
+            <div class="chat-list-title">Clients</div>
+            <div class="chat-thread-item active" onclick="switchThread('harlow')" id="thread-harlow">
+              <div class="chat-thread-avatar" style="background:#6366F1">HC</div>
+              <div style="min-width:0">
+                <div class="chat-thread-name">Harlow & Co</div>
+                <div class="chat-thread-preview">Sounds great, thanks!</div>
+              </div>
+            </div>
+            <div class="chat-thread-item" onclick="switchThread('elevation')" id="thread-elevation">
+              <div class="chat-thread-avatar" style="background:#059669">EG</div>
+              <div style="min-width:0">
+                <div class="chat-thread-name">Elevation Group</div>
+                <div class="chat-thread-preview">Can we push the call to Thu?</div>
+              </div>
+              <div class="chat-unread"></div>
+            </div>
+            <div class="chat-thread-item" onclick="switchThread('summit')" id="thread-summit">
+              <div class="chat-thread-avatar" style="background:#EC4899">SS</div>
+              <div style="min-width:0">
+                <div class="chat-thread-name">Summit Strategy</div>
+                <div class="chat-thread-preview">Discovery notes attached</div>
+              </div>
             </div>
           </div>
-          <div class="inv-row">
-            <div>
-              <div class="inv-client">Summit Commons</div>
-              <div class="inv-desc">Setup — Maintenance Tracking system</div>
-            </div>
-            <div style="text-align:right">
-              <div class="inv-amt">$1,800</div>
-              <div class="inv-badge badge-paid">Paid</div>
-            </div>
-          </div>
-          <div class="inv-row">
-            <div>
-              <div class="inv-client">Riverside Lofts</div>
-              <div class="inv-desc">Monthly retainer — support & updates</div>
-            </div>
-            <div style="text-align:right">
-              <div class="inv-amt">$150/mo</div>
-              <div class="inv-badge badge-active">Active</div>
+          <div style="padding:14px 16px 6px">
+            <div class="chat-list-title">Team</div>
+            <div class="chat-thread-item" onclick="switchThread('team')" id="thread-team">
+              <div class="chat-thread-avatar" style="background:var(--zacky)">GEN</div>
+              <div style="min-width:0">
+                <div class="chat-thread-name">General</div>
+                <div class="chat-thread-preview">Sam: heading out at 5</div>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- Message pane -->
+        <div class="chat-main">
+
+          <!-- Harlow thread -->
+          <div id="chat-harlow" class="chat-thread-pane" style="display:flex;flex-direction:column;height:100%">
+            <div class="chat-header">
+              <div class="chat-header-avatar" style="background:#6366F1">HC</div>
+              <div>
+                <div class="chat-header-name">Harlow & Co</div>
+                <div class="chat-header-status">Client · CRM Integration</div>
+              </div>
+            </div>
+            <div class="chat-messages">
+              <div class="chat-day-divider"><div class="chat-day-line"></div><div class="chat-day-label">Jun 9</div><div class="chat-day-line"></div></div>
+              <div class="chat-msg">
+                <div class="chat-msg-avatar" style="background:#6366F1">HC</div>
+                <div class="chat-msg-body">
+                  <div class="chat-msg-meta"><span class="chat-msg-name">Marcus (Harlow)</span><span class="chat-msg-time">9:14am</span></div>
+                  <div class="chat-msg-text">Hey — just wanted to check in on the CRM sync. We had a few leads come in over the weekend and want to make sure they got pulled through correctly.</div>
+                </div>
+              </div>
+              <div class="chat-msg self">
+                <div class="chat-msg-avatar" style="background:var(--zacky)">AM</div>
+                <div class="chat-msg-body">
+                  <div class="chat-msg-meta"><span class="chat-msg-name">Alex Morgan</span><span class="chat-msg-time">9:31am</span></div>
+                  <div class="chat-msg-text">Good timing — I just pulled the logs. 14 new leads processed between Friday 5pm and Monday 8am, all mapped correctly to your pipeline stages.</div>
+                </div>
+              </div>
+              <div class="chat-msg">
+                <div class="chat-msg-avatar" style="background:#6366F1">HC</div>
+                <div class="chat-msg-body">
+                  <div class="chat-msg-meta"><span class="chat-msg-name">Marcus (Harlow)</span><span class="chat-msg-time">9:35am</span></div>
+                  <div class="chat-msg-text">Perfect. One of them came in via the new landing page — does that route to the same place?</div>
+                </div>
+              </div>
+              <div class="chat-msg self">
+                <div class="chat-msg-avatar" style="background:var(--zacky)">AM</div>
+                <div class="chat-msg-body">
+                  <div class="chat-msg-meta"><span class="chat-msg-name">Alex Morgan</span><span class="chat-msg-time">9:48am</span></div>
+                  <div class="chat-msg-text">Yes — the form source tag maps to a "Website — Landing Page" entry in HubSpot. You'll see it labeled differently in the pipeline but it feeds into the same process.</div>
+                </div>
+              </div>
+              <div class="chat-day-divider"><div class="chat-day-line"></div><div class="chat-day-label">Jun 10</div><div class="chat-day-line"></div></div>
+              <div class="chat-msg">
+                <div class="chat-msg-avatar" style="background:#6366F1">HC</div>
+                <div class="chat-msg-body">
+                  <div class="chat-msg-meta"><span class="chat-msg-name">Marcus (Harlow)</span><span class="chat-msg-time">2:07pm</span></div>
+                  <div class="chat-msg-text">Sounds great, thanks!</div>
+                </div>
+              </div>
+            </div>
+            <div class="chat-input-area">
+              <div class="chat-input-box">
+                <span class="chat-input-placeholder">Message Harlow & Co...</span>
+                <button class="chat-send-btn">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="14" y1="2" x2="2" y2="8"/><line x1="14" y1="2" x2="9" y2="14"/><line x1="2" y1="8" x2="9" y2="14"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Elevation thread -->
+          <div id="chat-elevation" class="chat-thread-pane" style="display:none;flex-direction:column;height:100%">
+            <div class="chat-header">
+              <div class="chat-header-avatar" style="background:#059669">EG</div>
+              <div>
+                <div class="chat-header-name">Elevation Group</div>
+                <div class="chat-header-status">Client · Reporting Dashboard</div>
+              </div>
+            </div>
+            <div class="chat-messages">
+              <div class="chat-day-divider"><div class="chat-day-line"></div><div class="chat-day-label">Jun 11</div><div class="chat-day-line"></div></div>
+              <div class="chat-msg self">
+                <div class="chat-msg-avatar" style="background:var(--zacky)">JC</div>
+                <div class="chat-msg-body">
+                  <div class="chat-msg-meta"><span class="chat-msg-name">Jamie Chen</span><span class="chat-msg-time">10:02am</span></div>
+                  <div class="chat-msg-text">Hey! Just wanted to let you know the dashboard build is done — we're in testing now. Hoping to get your eyes on it by end of week.</div>
+                </div>
+              </div>
+              <div class="chat-msg">
+                <div class="chat-msg-avatar" style="background:#059669">EG</div>
+                <div class="chat-msg-body">
+                  <div class="chat-msg-meta"><span class="chat-msg-name">Priya (Elevation)</span><span class="chat-msg-time">10:45am</span></div>
+                  <div class="chat-msg-text">Excited to see it! Can we push the review call to Thursday? Wednesday is packed for us.</div>
+                </div>
+              </div>
+            </div>
+            <div class="chat-input-area">
+              <div class="chat-input-box">
+                <span class="chat-input-placeholder">Message Elevation Group...</span>
+                <button class="chat-send-btn">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="14" y1="2" x2="2" y2="8"/><line x1="14" y1="2" x2="9" y2="14"/><line x1="2" y1="8" x2="9" y2="14"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Summit thread -->
+          <div id="chat-summit" class="chat-thread-pane" style="display:none;flex-direction:column;height:100%">
+            <div class="chat-header">
+              <div class="chat-header-avatar" style="background:#EC4899">SS</div>
+              <div>
+                <div class="chat-header-name">Summit Strategy</div>
+                <div class="chat-header-status">Client · Onboarding Automation</div>
+              </div>
+            </div>
+            <div class="chat-messages">
+              <div class="chat-day-divider"><div class="chat-day-line"></div><div class="chat-day-label">Jun 4</div><div class="chat-day-line"></div></div>
+              <div class="chat-msg">
+                <div class="chat-msg-avatar" style="background:#EC4899">SS</div>
+                <div class="chat-msg-body">
+                  <div class="chat-msg-meta"><span class="chat-msg-name">Lindsey (Summit)</span><span class="chat-msg-time">11:30am</span></div>
+                  <div class="chat-msg-text">Discovery call notes attached — I've also added a few extra things we'd love if the budget allows. No pressure!</div>
+                </div>
+              </div>
+              <div class="chat-msg self">
+                <div class="chat-msg-avatar" style="background:var(--zacky)">AM</div>
+                <div class="chat-msg-body">
+                  <div class="chat-msg-meta"><span class="chat-msg-name">Alex Morgan</span><span class="chat-msg-time">12:15pm</span></div>
+                  <div class="chat-msg-text">Got it — I'll review and come back to you with what fits in scope vs. what we can add as an optional phase. Great call today!</div>
+                </div>
+              </div>
+            </div>
+            <div class="chat-input-area">
+              <div class="chat-input-box">
+                <span class="chat-input-placeholder">Message Summit Strategy...</span>
+                <button class="chat-send-btn">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="14" y1="2" x2="2" y2="8"/><line x1="14" y1="2" x2="9" y2="14"/><line x1="2" y1="8" x2="9" y2="14"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Team thread -->
+          <div id="chat-team" class="chat-thread-pane" style="display:none;flex-direction:column;height:100%">
+            <div class="chat-header">
+              <div class="chat-header-avatar" style="background:var(--zacky)">GEN</div>
+              <div>
+                <div class="chat-header-name">General</div>
+                <div class="chat-header-status">Team · 3 members</div>
+              </div>
+            </div>
+            <div class="chat-messages">
+              <div class="chat-day-divider"><div class="chat-day-line"></div><div class="chat-day-label">Jun 11</div><div class="chat-day-line"></div></div>
+              <div class="chat-msg self">
+                <div class="chat-msg-avatar" style="background:var(--zacky)">AM</div>
+                <div class="chat-msg-body">
+                  <div class="chat-msg-meta"><span class="chat-msg-name">Alex Morgan</span><span class="chat-msg-time">8:05am</span></div>
+                  <div class="chat-msg-text">Morning — quick heads up, Elevation wants to move the review call to Thursday. Jamie, does that work for you?</div>
+                </div>
+              </div>
+              <div class="chat-msg">
+                <div class="chat-msg-avatar" style="background:#EC4899">JC</div>
+                <div class="chat-msg-body">
+                  <div class="chat-msg-meta"><span class="chat-msg-name">Jamie Chen</span><span class="chat-msg-time">8:22am</span></div>
+                  <div class="chat-msg-text">Thursday works! I'll have the full walkthrough prepped by Wed night.</div>
+                </div>
+              </div>
+              <div class="chat-msg">
+                <div class="chat-msg-avatar" style="background:#059669">SR</div>
+                <div class="chat-msg-body">
+                  <div class="chat-msg-meta"><span class="chat-msg-name">Sam Rivera</span><span class="chat-msg-time">4:52pm</span></div>
+                  <div class="chat-msg-text">heading out at 5 — see you both tomorrow!</div>
+                </div>
+              </div>
+            </div>
+            <div class="chat-input-area">
+              <div class="chat-input-box">
+                <span class="chat-input-placeholder">Message General...</span>
+                <button class="chat-send-btn">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="14" y1="2" x2="2" y2="8"/><line x1="14" y1="2" x2="9" y2="14"/><line x1="2" y1="8" x2="9" y2="14"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /chat-main -->
+      </div><!-- /chat-layout -->
+    </div>
+
+
+    <!-- ══════════ PROJECTS ══════════ -->
+    <div class="panel" id="dp-projects">
+      <div class="panel-header">
+        <div class="panel-eyebrow">3 active projects</div>
+        <div class="panel-title">Projects</div>
+        <div class="panel-sub">Build progress and milestone tracking</div>
+      </div>
+      <div class="panel-body">
+
+        <div class="kpi-row">
+          <div class="kpi-tile">
+            <div class="kpi-val">1</div>
+            <div class="kpi-label">Live</div>
+          </div>
+          <div class="kpi-tile">
+            <div class="kpi-val">1</div>
+            <div class="kpi-label">In Build</div>
+          </div>
+          <div class="kpi-tile">
+            <div class="kpi-val">1</div>
+            <div class="kpi-label">Scoping</div>
+          </div>
+          <div class="kpi-tile">
+            <div class="kpi-val mono">5/7</div>
+            <div class="kpi-label">Milestones Done</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-head">
+            <div class="section-label">All Projects</div>
+            <span class="section-badge">3</span>
+          </div>
+          <div class="project-grid">
+
+            <div class="project-card">
+              <div class="proj-client">Harlow & Co</div>
+              <div class="proj-name">CRM Integration</div>
+              <div class="proj-status-line">Live · Fully deployed</div>
+              <div class="phase-track">
+                <div class="phase-block done"></div>
+                <div class="phase-block done"></div>
+                <div class="phase-block done"></div>
+                <div class="phase-block done"></div>
+                <div class="phase-block done"></div>
+              </div>
+              <div class="phase-names">
+                <div class="phase-name">Scope</div>
+                <div class="phase-name">Build</div>
+                <div class="phase-name">Test</div>
+                <div class="phase-name">Deploy</div>
+                <div class="phase-name">Live</div>
+              </div>
+              <div class="milestone"><div class="m-dot"></div>Lead intake syncing to HubSpot</div>
+              <div class="milestone"><div class="m-dot"></div>Deal stage updates running nightly</div>
+              <div class="milestone"><div class="m-dot"></div>Client signed off — May 14</div>
+            </div>
+
+            <div class="project-card" onclick="openProject('reporting')">
+              <div class="proj-client">Elevation Group</div>
+              <div class="proj-name">Reporting Dashboard</div>
+              <div class="proj-status-line">Testing · In progress</div>
+              <div class="phase-track">
+                <div class="phase-block done"></div>
+                <div class="phase-block done"></div>
+                <div class="phase-block active"></div>
+                <div class="phase-block"></div>
+                <div class="phase-block"></div>
+              </div>
+              <div class="phase-names">
+                <div class="phase-name">Scope</div>
+                <div class="phase-name">Build</div>
+                <div class="phase-name">Test</div>
+                <div class="phase-name">Deploy</div>
+                <div class="phase-name">Live</div>
+              </div>
+              <div class="milestone"><div class="m-dot"></div>Data pipeline connected</div>
+              <div class="milestone"><div class="m-dot"></div>3 report templates built</div>
+              <div class="milestone"><div class="m-dot open"></div>Client sign-off on layout</div>
+            </div>
+
+            <div class="project-card" onclick="openProject('onboarding')">
+              <div class="proj-client">Summit Strategy</div>
+              <div class="proj-name">Onboarding Automation</div>
+              <div class="proj-status-line">Build · Just started</div>
+              <div class="phase-track">
+                <div class="phase-block done"></div>
+                <div class="phase-block active"></div>
+                <div class="phase-block"></div>
+                <div class="phase-block"></div>
+                <div class="phase-block"></div>
+              </div>
+              <div class="phase-names">
+                <div class="phase-name">Scope</div>
+                <div class="phase-name">Build</div>
+                <div class="phase-name">Test</div>
+                <div class="phase-name">Deploy</div>
+                <div class="phase-name">Live</div>
+              </div>
+              <div class="milestone"><div class="m-dot"></div>Discovery call complete</div>
+              <div class="milestone"><div class="m-dot open"></div>Welcome sequence drafted</div>
+              <div class="milestone"><div class="m-dot open"></div>Slack integration scoped</div>
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </div>
+
+
+    <!-- ══════════ INVOICES ══════════ -->
+    <div class="panel" id="dp-invoices">
+      <div class="panel-header">
+        <div class="panel-eyebrow">Billing & revenue</div>
+        <div class="panel-title">Invoices</div>
+        <div class="panel-sub">Business — Jun 2026</div>
+      </div>
+      <div class="panel-body">
+
+        <div class="kpi-row">
+          <div class="kpi-tile">
+            <div class="kpi-val mono">$3,800</div>
+            <div class="kpi-label">Outstanding</div>
+          </div>
+          <div class="kpi-tile">
+            <div class="kpi-val mono" style="color:var(--red-txt)">$0</div>
+            <div class="kpi-label">Overdue</div>
+          </div>
+          <div class="kpi-tile">
+            <div class="kpi-val mono">$6,000</div>
+            <div class="kpi-label">Received MTD</div>
+          </div>
+          <div class="kpi-tile">
+            <div class="kpi-val mono">$9,800</div>
+            <div class="kpi-label">Total YTD</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-head">
+            <div class="section-label">All Invoices</div>
+            <span class="section-badge">5</span>
+          </div>
+          <div class="inv-table">
+
+            <div class="inv-thead">
+              <div class="inv-th">Status</div>
+              <div class="inv-th">Client</div>
+              <div class="inv-th">Invoice #</div>
+              <div class="inv-th">Date</div>
+              <div class="inv-th" style="text-align:right">Amount</div>
+            </div>
+
+            <div class="inv-row">
+              <div class="inv-cell"><span class="badge b-paid">Paid</span></div>
+              <div class="inv-cell">
+                <div class="inv-name">Harlow & Co</div>
+                <div class="inv-desc">Setup — CRM Integration</div>
+              </div>
+              <div class="inv-cell inv-num">INV-001</div>
+              <div class="inv-cell">May 1, 2026</div>
+              <div class="inv-cell inv-amt">$3,200</div>
+            </div>
+
+            <div class="inv-row">
+              <div class="inv-cell"><span class="badge b-paid">Paid</span></div>
+              <div class="inv-cell">
+                <div class="inv-name">Elevation Group</div>
+                <div class="inv-desc">Setup — Reporting Dashboard</div>
+              </div>
+              <div class="inv-cell inv-num">INV-002</div>
+              <div class="inv-cell">May 15, 2026</div>
+              <div class="inv-cell inv-amt">$2,800</div>
+            </div>
+
+            <div class="inv-row">
+              <div class="inv-cell"><span class="badge b-sent">Sent</span></div>
+              <div class="inv-cell">
+                <div class="inv-name">Summit Strategy</div>
+                <div class="inv-desc">Setup — Onboarding Automation</div>
+              </div>
+              <div class="inv-cell inv-num">INV-003</div>
+              <div class="inv-cell">Jun 1, 2026</div>
+              <div class="inv-cell inv-amt">$3,800</div>
+            </div>
+
+            <div class="inv-row">
+              <div class="inv-cell"><span class="badge b-retainer">Retainer</span></div>
+              <div class="inv-cell">
+                <div class="inv-name">Harlow & Co</div>
+                <div class="inv-desc">Monthly support & updates</div>
+              </div>
+              <div class="inv-cell inv-num">INV-004</div>
+              <div class="inv-cell">Jun 1, 2026</div>
+              <div class="inv-cell inv-amt">$450/mo</div>
+            </div>
+
+            <div class="inv-row">
+              <div class="inv-cell"><span class="badge b-retainer">Retainer</span></div>
+              <div class="inv-cell">
+                <div class="inv-name">Elevation Group</div>
+                <div class="inv-desc">Monthly support & updates</div>
+              </div>
+              <div class="inv-cell inv-num">INV-005</div>
+              <div class="inv-cell">Jun 1, 2026</div>
+              <div class="inv-cell inv-amt">$500/mo</div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ══════════ TEAM ══════════ -->
+    <div class="panel" id="dp-team">
+      <div class="panel-header">
+        <div class="panel-eyebrow">Business</div>
+        <div class="panel-title">Team</div>
+        <div class="panel-sub">People and roles</div>
+      </div>
+      <div class="panel-body">
+
+        <div class="kpi-row">
+          <div class="kpi-tile">
+            <div class="kpi-val">3</div>
+            <div class="kpi-label">Members</div>
+          </div>
+          <div class="kpi-tile">
+            <div class="kpi-val">3</div>
+            <div class="kpi-label">Clients Served</div>
+          </div>
+          <div class="kpi-tile">
+            <div class="kpi-val">6</div>
+            <div class="kpi-label">Projects Managed</div>
+          </div>
+          <div class="kpi-tile">
+            <div class="kpi-val">5</div>
+            <div class="kpi-label">Open Tasks</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-head">
+            <div class="section-label">Members</div>
+            <span class="section-badge">3</span>
+          </div>
+          <div class="member-list">
+
+            <div class="member-card">
+              <div class="mem-avatar" style="background:var(--zacky)">AM</div>
+              <div>
+                <div class="mem-name">Alex Morgan</div>
+                <div class="mem-role">Operations Director</div>
+                <div class="mem-email">alex@business.co</div>
+              </div>
+              <div class="mem-right"><span class="badge b-admin">Admin</span></div>
+            </div>
+
+            <div class="member-card">
+              <div class="mem-avatar" style="background:#EC4899">JC</div>
+              <div>
+                <div class="mem-name">Jamie Chen</div>
+                <div class="mem-role">Automation Specialist</div>
+                <div class="mem-email">jamie@business.co</div>
+              </div>
+              <div class="mem-right"><span class="badge b-member">Member</span></div>
+            </div>
+
+            <div class="member-card">
+              <div class="mem-avatar" style="background:#059669">SR</div>
+              <div>
+                <div class="mem-name">Sam Rivera</div>
+                <div class="mem-role">Client Success</div>
+                <div class="mem-email">sam@business.co</div>
+              </div>
+              <div class="mem-right"><span class="badge b-member">Member</span></div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+  </div><!-- /panels -->
+</div><!-- /main -->
+
+<!-- ═══ DRAWER OVERLAY ═══ -->
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeProject()"></div>
+
+<!-- ═══ DRAWER: CRM Integration ═══ -->
+<div class="drawer" id="drawer-crm">
+  <div class="drawer-header">
+    <div class="drawer-header-left">
+      <div class="drawer-client-tag">Harlow & Co</div>
+      <div class="drawer-title">CRM Integration</div>
+      <div class="drawer-status">Live · Fully deployed</div>
+    </div>
+    <button class="drawer-close" onclick="closeProject()">×</button>
   </div>
+  <div class="drawer-body">
 
-  <!-- Team -->
-  <div class="panel" id="dp-team">
-    <div class="panel-header">
-      <div class="panel-meta">Updated Jun 3, 2026</div>
-      <div class="panel-title">Team</div>
-      <div class="panel-sub">Company Property Group</div>
+    <div>
+      <div class="drawer-section-label">Phase Progress</div>
+      <div class="drawer-phase-track">
+        <div class="drawer-phase-block done"></div>
+        <div class="drawer-phase-block done"></div>
+        <div class="drawer-phase-block done"></div>
+        <div class="drawer-phase-block done"></div>
+        <div class="drawer-phase-block done"></div>
+      </div>
+      <div class="drawer-phase-names">
+        <div class="drawer-phase-name">Scope</div>
+        <div class="drawer-phase-name">Build</div>
+        <div class="drawer-phase-name">Test</div>
+        <div class="drawer-phase-name">Deploy</div>
+        <div class="drawer-phase-name">Live</div>
+      </div>
     </div>
-    <div class="panel-body">
-      <div>
-        <div class="section-title">Members <span class="section-count">3</span></div>
-        <div class="member-list">
-          <div class="member-card">
-            <div class="mem-avatar terra">J</div>
-            <div>
-              <div class="mem-name">Jamie Reynolds</div>
-              <div class="mem-role">Operations Director</div>
-              <div class="mem-email">jamie@company.co</div>
-            </div>
-          </div>
-          <div class="member-card">
-            <div class="mem-avatar">D</div>
-            <div>
-              <div class="mem-name">Dana Chen</div>
-              <div class="mem-role">Property Manager</div>
-              <div class="mem-email">dana@company.co</div>
-            </div>
-          </div>
-          <div class="member-card">
-            <div class="mem-avatar">M</div>
-            <div>
-              <div class="mem-name">Marcus Webb</div>
-              <div class="mem-role">Leasing Coordinator</div>
-              <div class="mem-email">marcus@company.co</div>
-            </div>
-          </div>
+
+    <div class="drawer-meta-row">
+      <div class="drawer-meta-item">
+        <div class="drawer-meta-label">Started</div>
+        <div class="drawer-meta-val">Apr 1, 2026</div>
+      </div>
+      <div class="drawer-meta-item">
+        <div class="drawer-meta-label">Delivered</div>
+        <div class="drawer-meta-val">May 14, 2026</div>
+      </div>
+      <div class="drawer-meta-item">
+        <div class="drawer-meta-label">Setup fee</div>
+        <div class="drawer-meta-val" style="font-family:'JetBrains Mono',monospace;font-size:12px">$3,200</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="drawer-section-label">Milestones</div>
+      <div class="drawer-milestone"><div class="dm-dot"></div>Lead intake form connected to HubSpot CRM</div>
+      <div class="drawer-milestone"><div class="dm-dot"></div>Deal stage updates syncing nightly at 11pm</div>
+      <div class="drawer-milestone"><div class="dm-dot"></div>Contact deduplication logic built and tested</div>
+      <div class="drawer-milestone"><div class="dm-dot"></div>Client UAT passed — May 12</div>
+      <div class="drawer-milestone"><div class="dm-dot"></div>Signed off and handed over — May 14</div>
+    </div>
+
+    <div>
+      <div class="drawer-section-label">Tasks</div>
+      <div class="drawer-task">
+        <div class="task-check done">✓</div>
+        <div>
+          <div class="task-text done-text">Map HubSpot field schema to intake form</div>
+          <div class="task-assignee">Jamie Chen · Done</div>
+        </div>
+      </div>
+      <div class="drawer-task">
+        <div class="task-check done">✓</div>
+        <div>
+          <div class="task-text done-text">Build deduplication logic (email + phone)</div>
+          <div class="task-assignee">Jamie Chen · Done</div>
+        </div>
+      </div>
+      <div class="drawer-task">
+        <div class="task-check done">✓</div>
+        <div>
+          <div class="task-text done-text">Run QA pass — 50 test submissions</div>
+          <div class="task-assignee">Alex Morgan · Done</div>
         </div>
       </div>
     </div>
-  </div>
 
+    <div>
+      <div class="drawer-section-label">Automations</div>
+      <span class="wf-chip"><div class="wf-chip-dot"></div>Lead Intake</span>
+      <span class="wf-chip"><div class="wf-chip-dot"></div>Deal Pipeline Sync</span>
+    </div>
+
+    <div>
+      <div class="drawer-section-label">Notes</div>
+      <div class="note-box">312 leads processed in the first 30 days. Client reported a 40% reduction in manual data entry. Running smoothly — no issues flagged since go-live.</div>
+    </div>
+
+  </div>
 </div>
 
-<!-- Demo banner -->
+
+<!-- ═══ DRAWER: Reporting Dashboard ═══ -->
+<div class="drawer" id="drawer-reporting">
+  <div class="drawer-header">
+    <div class="drawer-header-left">
+      <div class="drawer-client-tag">Elevation Group</div>
+      <div class="drawer-title">Reporting Dashboard</div>
+      <div class="drawer-status">Testing · In progress</div>
+    </div>
+    <button class="drawer-close" onclick="closeProject()">×</button>
+  </div>
+  <div class="drawer-body">
+
+    <div>
+      <div class="drawer-section-label">Phase Progress</div>
+      <div class="drawer-phase-track">
+        <div class="drawer-phase-block done"></div>
+        <div class="drawer-phase-block done"></div>
+        <div class="drawer-phase-block active"></div>
+        <div class="drawer-phase-block"></div>
+        <div class="drawer-phase-block"></div>
+      </div>
+      <div class="drawer-phase-names">
+        <div class="drawer-phase-name">Scope</div>
+        <div class="drawer-phase-name">Build</div>
+        <div class="drawer-phase-name">Test</div>
+        <div class="drawer-phase-name">Deploy</div>
+        <div class="drawer-phase-name">Live</div>
+      </div>
+    </div>
+
+    <div class="drawer-meta-row">
+      <div class="drawer-meta-item">
+        <div class="drawer-meta-label">Started</div>
+        <div class="drawer-meta-val">May 10, 2026</div>
+      </div>
+      <div class="drawer-meta-item">
+        <div class="drawer-meta-label">Est. delivery</div>
+        <div class="drawer-meta-val">Jun 20, 2026</div>
+      </div>
+      <div class="drawer-meta-item">
+        <div class="drawer-meta-label">Setup fee</div>
+        <div class="drawer-meta-val" style="font-family:'JetBrains Mono',monospace;font-size:12px">$2,800</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="drawer-section-label">Milestones</div>
+      <div class="drawer-milestone"><div class="dm-dot"></div>Data pipeline connected to Google Sheets source</div>
+      <div class="drawer-milestone"><div class="dm-dot"></div>3 report templates built (revenue, leads, activity)</div>
+      <div class="drawer-milestone"><div class="dm-dot open"></div>Client sign-off on layout and chart style</div>
+      <div class="drawer-milestone"><div class="dm-dot open"></div>Automated weekly email delivery configured</div>
+    </div>
+
+    <div>
+      <div class="drawer-section-label">Tasks</div>
+      <div class="drawer-task">
+        <div class="task-check done">✓</div>
+        <div>
+          <div class="task-text done-text">Connect Sheets data source and validate columns</div>
+          <div class="task-assignee">Jamie Chen · Done</div>
+        </div>
+      </div>
+      <div class="drawer-task">
+        <div class="task-check done">✓</div>
+        <div>
+          <div class="task-text done-text">Build revenue and lead volume report templates</div>
+          <div class="task-assignee">Jamie Chen · Done</div>
+        </div>
+      </div>
+      <div class="drawer-task">
+        <div class="task-check"></div>
+        <div>
+          <div class="task-text">Prepare walkthrough for client review call</div>
+          <div class="task-assignee">Alex Morgan · Due Jun 13</div>
+        </div>
+      </div>
+      <div class="drawer-task">
+        <div class="task-check"></div>
+        <div>
+          <div class="task-text">Address feedback on chart colors and layout</div>
+          <div class="task-assignee">Jamie Chen · Pending client notes</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="drawer-section-label">Automations</div>
+      <span class="wf-chip"><div class="wf-chip-dot"></div>Monthly Reporting</span>
+    </div>
+
+    <div>
+      <div class="drawer-section-label">Notes</div>
+      <div class="note-box">Client requested a plain-text summary email alongside the dashboard view. They want the first email to go out on the 1st of each month, no later than 8am. Flagged for Jamie to configure once layout is approved.</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══ DRAWER: Onboarding Automation ═══ -->
+<div class="drawer" id="drawer-onboarding">
+  <div class="drawer-header">
+    <div class="drawer-header-left">
+      <div class="drawer-client-tag">Summit Strategy</div>
+      <div class="drawer-title">Onboarding Automation</div>
+      <div class="drawer-status">Build · Just started</div>
+    </div>
+    <button class="drawer-close" onclick="closeProject()">×</button>
+  </div>
+  <div class="drawer-body">
+
+    <div>
+      <div class="drawer-section-label">Phase Progress</div>
+      <div class="drawer-phase-track">
+        <div class="drawer-phase-block done"></div>
+        <div class="drawer-phase-block active"></div>
+        <div class="drawer-phase-block"></div>
+        <div class="drawer-phase-block"></div>
+        <div class="drawer-phase-block"></div>
+      </div>
+      <div class="drawer-phase-names">
+        <div class="drawer-phase-name">Scope</div>
+        <div class="drawer-phase-name">Build</div>
+        <div class="drawer-phase-name">Test</div>
+        <div class="drawer-phase-name">Deploy</div>
+        <div class="drawer-phase-name">Live</div>
+      </div>
+    </div>
+
+    <div class="drawer-meta-row">
+      <div class="drawer-meta-item">
+        <div class="drawer-meta-label">Started</div>
+        <div class="drawer-meta-val">Jun 2, 2026</div>
+      </div>
+      <div class="drawer-meta-item">
+        <div class="drawer-meta-label">Est. delivery</div>
+        <div class="drawer-meta-val">Jul 5, 2026</div>
+      </div>
+      <div class="drawer-meta-item">
+        <div class="drawer-meta-label">Setup fee</div>
+        <div class="drawer-meta-val" style="font-family:'JetBrains Mono',monospace;font-size:12px">$3,800</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="drawer-section-label">Milestones</div>
+      <div class="drawer-milestone"><div class="dm-dot"></div>Discovery call complete — Jun 4</div>
+      <div class="drawer-milestone"><div class="dm-dot open"></div>Welcome email sequence drafted (3 emails)</div>
+      <div class="drawer-milestone"><div class="dm-dot open"></div>Slack channel structure mapped</div>
+      <div class="drawer-milestone"><div class="dm-dot open"></div>Client walkthrough call scheduled</div>
+    </div>
+
+    <div>
+      <div class="drawer-section-label">Tasks</div>
+      <div class="drawer-task">
+        <div class="task-check done">✓</div>
+        <div>
+          <div class="task-text done-text">Run discovery call and document requirements</div>
+          <div class="task-assignee">Alex Morgan · Done</div>
+        </div>
+      </div>
+      <div class="drawer-task">
+        <div class="task-check"></div>
+        <div>
+          <div class="task-text">Draft welcome email sequence — emails 1, 2, 3</div>
+          <div class="task-assignee">Jamie Chen · Due Jun 14</div>
+        </div>
+      </div>
+      <div class="drawer-task">
+        <div class="task-check"></div>
+        <div>
+          <div class="task-text">Map Slack workspace and channel naming structure</div>
+          <div class="task-assignee">Jamie Chen · Due Jun 16</div>
+        </div>
+      </div>
+      <div class="drawer-task">
+        <div class="task-check"></div>
+        <div>
+          <div class="task-text">Schedule walkthrough call with Summit team</div>
+          <div class="task-assignee">Alex Morgan · Due Jun 12</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="drawer-section-label">Automations</div>
+      <span class="wf-chip"><div class="wf-chip-dot amber"></div>Client Onboarding</span>
+    </div>
+
+    <div>
+      <div class="drawer-section-label">Notes</div>
+      <div class="note-box">Summit wants the first welcome touchpoint to fire within 5 minutes of a new client signing. They're also asking about a Slack bot for internal task reminders — scoped as a possible add-on, not in current contract.</div>
+    </div>
+
+  </div>
+</div>
+
+
 <div class="demo-banner">
-  This is a demo of the Zacky Command Center.
-  <a href="https://zacky.co/#contact">Get yours →</a>
+  <div class="demo-banner-copy">
+    <div class="demo-banner-headline">This is a demo of the Zacky Operating System.</div>
+    <div class="demo-banner-sub">Each OS is completely customizable to fit each business and its needs.</div>
+  </div>
+  <a href="https://zacky.co/#contact" class="demo-banner-cta">Get yours →</a>
 </div>
 
 <script>
-(function() {
-  var navItems = document.querySelectorAll('.nav-item[data-tab]');
-  var panels = document.querySelectorAll('.panel');
-  navItems.forEach(function(item) {
-    item.addEventListener('click', function() {
-      navItems.forEach(function(n) { n.classList.remove('active'); });
-      panels.forEach(function(p) { p.classList.remove('active'); });
+(function () {
+  var TAB_LABELS = {
+    overview:  'Overview',
+    chat:      'Chat',
+    projects:  'Projects',
+    invoices:  'Invoices',
+    team:      'Team'
+  };
+
+  var navItems  = document.querySelectorAll('.nav-item[data-tab]');
+  var panels    = document.querySelectorAll('.panel');
+  var crumb     = document.getElementById('js-crumb');
+
+  navItems.forEach(function (item) {
+    item.addEventListener('click', function () {
+      navItems.forEach(function (n) { n.classList.remove('active'); });
+      panels.forEach(function (p)   { p.classList.remove('active'); });
       item.classList.add('active');
-      var panel = document.getElementById('dp-' + item.dataset.tab);
+      var tab = item.dataset.tab;
+      var panel = document.getElementById('dp-' + tab);
       if (panel) panel.classList.add('active');
+      if (crumb) crumb.textContent = TAB_LABELS[tab] || tab;
     });
   });
 })();
+
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme === 'zacky' ? 'zacky' : '');
+  document.getElementById('btn-zacky').classList.toggle('active', theme === 'zacky');
+  document.getElementById('btn-default').classList.toggle('active', theme === 'default');
+}
+
+function switchThread(key) {
+  document.querySelectorAll('.chat-thread-pane').forEach(function(p) { p.style.display = 'none'; });
+  document.querySelectorAll('.chat-thread-item').forEach(function(i) { i.classList.remove('active'); });
+  var pane = document.getElementById('chat-' + key);
+  if (pane) { pane.style.display = 'flex'; pane.style.flexDirection = 'column'; }
+  var item = document.getElementById('thread-' + key);
+  if (item) {
+    item.classList.add('active');
+    var dot = item.querySelector('.chat-unread');
+    if (dot) dot.remove();
+  }
+}
+
+var DRAWER_MAP = { crm: 'drawer-crm', reporting: 'drawer-reporting', onboarding: 'drawer-onboarding' };
+
+function openProject(key) {
+  closeProject();
+  var id = DRAWER_MAP[key];
+  if (!id) return;
+  document.getElementById('drawer-overlay').classList.add('open');
+  setTimeout(function () {
+    document.getElementById(id).classList.add('open');
+  }, 10);
+  document.addEventListener('keydown', escClose);
+}
+
+function closeProject() {
+  document.querySelectorAll('.drawer.open').forEach(function (d) { d.classList.remove('open'); });
+  document.getElementById('drawer-overlay').classList.remove('open');
+  document.removeEventListener('keydown', escClose);
+}
+
+function escClose(e) { if (e.key === 'Escape') closeProject(); }
+
+function dismissCard(btn) {
+  var card = btn.closest('.next-card');
+  if (!card) return;
+  card.style.transition = 'opacity 0.18s, transform 0.18s';
+  card.style.opacity = '0';
+  card.style.transform = 'scale(0.95)';
+  setTimeout(function () {
+    card.remove();
+    var remaining = document.querySelectorAll('#conveyor .next-card').length;
+    var badge = document.getElementById('conveyor-count');
+    if (badge) badge.textContent = remaining + (remaining === 1 ? ' item' : ' items');
+  }, 180);
+}
 </script>
 </body>
 </html>
