@@ -1,6 +1,21 @@
 # zacky-website State
 
-## Last session: 2026-06-11 (session 4)
+## Last session: 2026-06-11 (session 5)
+
+### What we did (session 5)
+- Rebrand: all outward "Zacky OS" / "Zacky Operating System" mentions → **"Zacky Command Center"** in `index.html` (product name, body copy, footer link, `#zacky-os` anchor → `#command-center`) and `demo.html` (bottom banner headline + sub)
+- CSS class names (`os-*`) intentionally left alone — invisible to visitors, renaming risks breakage
+- Pushed to `evelyndedert/zacky.co` main (commit 7d74d1f)
+
+### Learned (session 5)
+- **Netlify does NOT auto-deploy from the repo** — verified live: zacky.co still served old branding after push. Kara must deploy manually from her side.
+
+### What's next (session 5)
+- **Kara: redeploy zacky.co — rebrand is pushed but not live** (supersedes the session-4 deploy item; same action, now carries the rebrand too)
+
+---
+
+## Previous session: 2026-06-11 (session 4)
 
 ### What we did (session 4)
 - Full rebuild of `demo.html`: replaced 3-tab basic demo with a high-fidelity 5-tab OS replica
