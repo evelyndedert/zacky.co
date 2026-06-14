@@ -1,17 +1,43 @@
 # zacky-website State
 
-## Last session: 2026-06-11 (session 5)
+## Last session: 2026-06-13 (session 6)
+
+### What we did (session 6)
+- Rebuilt the "Who we are" bio section into **"Meet the Zacky Team"** — two side-by-side cards (Kara left, Evelyn right)
+- Each card: circular avatar photo (140px), name (first name only), role subtitle, indented bio paragraph
+- Added Evelyn's photo (`images/evelyn.jpg`) with face-centered crop (`object-position: center 18%`)
+- Added Kara's photo (`images/kara.png`) with face-centered crop (`object-position: center 20%`)
+- Added Zacky favicon (`images/favicon-32.png`, `images/icon-192.png`) to `<head>`
+- Removed all `.tag` section labels ("Who we are", "What we build", "Client outcomes", "How it works")
+- Updated "Client outcomes" heading to **"The results speak for themselves."**
+- Fixed hero SVG animation: orange left-bar now stays on node after activation (was flashing off)
+- Reworked animation sequence: dot arrives → orange bar on → hesitation → dot departs + checkmark simultaneously
+- Pushed to `evelyndedert/zacky.co` main (commit 225aa74) — **ready for Kara to deploy**
+
+### What's decided
+- Bio section uses first names only (no last names)
+- Kara's subtitle: "Systems & Automation Design"
+- Evelyn's subtitle: "Design & Implementation"
+- Section tags removed site-wide — headings stand alone
+- No divider between the app hero and the Meet the Team section (background contrast is sufficient)
+
+### What's next
+- **Kara: deploy zacky.co from Netlify** (pushed and ready)
+- Kara's bio is live and final
+
+### Blockers
+- Deploy is Kara's action — nothing blocking on Evelyn's side
+
+---
+
+## Previous session: 2026-06-11 (session 5)
 
 ### What we did (session 5)
-- Rebrand: all outward "Zacky OS" / "Zacky Operating System" mentions → **"Zacky Command Center"** in `index.html` (product name, body copy, footer link, `#zacky-os` anchor → `#command-center`) and `demo.html` (bottom banner headline + sub)
-- CSS class names (`os-*`) intentionally left alone — invisible to visitors, renaming risks breakage
+- Rebrand: all outward "Zacky OS" / "Zacky Operating System" mentions → **"Zacky Command Center"** in `index.html` and `demo.html`
 - Pushed to `evelyndedert/zacky.co` main (commit 7d74d1f)
 
 ### Learned (session 5)
 - **Netlify does NOT auto-deploy from the repo** — verified live: zacky.co still served old branding after push. Kara must deploy manually from her side.
-
-### What's next (session 5)
-- **Kara: redeploy zacky.co — rebrand is pushed but not live** (supersedes the session-4 deploy item; same action, now carries the rebrand too)
 
 ---
 
@@ -19,28 +45,9 @@
 
 ### What we did (session 4)
 - Full rebuild of `demo.html`: replaced 3-tab basic demo with a high-fidelity 5-tab OS replica
-- 5 views: Overview (KPIs + What's Next + In-Flight projects), Chat (iMessage-style, 4 conversations), Projects (3 cards + clickable detail drawers), Invoices, Team
-- Mock company: "Business" (generic, no industry) — sidebar shows "B" brand mark
-- Dual theme toggle in sidebar: Zacky (parchment/terracotta, default) + Blue (indigo, secondary)
-- CSS specificity fix: `html[data-theme="zacky"]` beats `:root` — prevents blue theme from bleeding through
-- Phase progress bars in solid blue (5 blocks, done/active/empty states)
-- Chat self-messages right-aligned (iMessage style, flex row-reverse + column-reverse on body)
-- All "Workflow" language replaced with "Automations" / "Projects Managed" etc.
-- Bold gradient banner at bottom with strong box-shadow to stand out
 - Pushed to `evelyndedert/zacky.co` main (commit 9221844)
 
 ### What's decided
 - Public repo so Kara's Netlify free tier can connect to it
 - `demo.html` is the live OS demo — generic business data, no industry specificity
-- Zacky theme is the default; Blue is secondary toggle in sidebar
-- All "Workflow" references removed from demo — replaced with "Automations" language
 - Kara deploys to zacky.co from her side (she owns the Netlify/domain)
-
-### What's next
-- Kara: pull evelyndedert/zacky.co and deploy to zacky.co
-- Kara: set up Netlify email notification for contact form if not done yet
-- Future: Bank and Lawn Care demo variants (deferred — generic "Business" covers initial launch)
-- Future: company switcher if multiple demo variants built
-
-### Blockers
-- Deploy is Kara's action — nothing blocking on Evelyn's side
