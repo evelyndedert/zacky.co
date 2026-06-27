@@ -1,0 +1,3 @@
+.deploy/
+.netlify/
+.DS_Store

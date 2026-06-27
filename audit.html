@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Automation Audit — Zacky</title>
+<meta name="description" content="A $999 one-week audit that maps the repetitive work in your role or your business, ranks every fix by value vs. effort, and hands you a plan. Credited toward your first month if we build.">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="images/icon-192.png">
+<meta property="og:title" content="The Zacky Automation Audit — $999, credited if we build">
+<meta property="og:description" content="One week. We map the busywork you've stopped noticing, rank it by value vs. effort, and hand you a plan for exactly what to automate first.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zacky.co/audit">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --parchment:   #FFFFFF;
+  --parchment-2: #F4F4F2;
+  --parchment-3: #ECECEC;
+  --white:       #FFFFFF;
+  --ink:         #0A0A0A;
+  --ink-2:       #2A2A2A;
+  --stone:       #9A9A9A;
+  --stone-2:     #D6D6D6;
+  --terra:       #0A0A0A;
+  --terra-dark:  #3A3A3A;
+  --border:      rgba(0,0,0,0.09);
+  --border-2:    rgba(0,0,0,0.14);
+  --accent:      #1E62F4;
+  --accent-deep: #0E4FC9;
+  --accent-tint: #EAF1FE;
+  --shadow-sm:   0 1px 3px rgba(26,26,26,0.06), 0 0 0 1px rgba(26,26,26,0.04);
+  --shadow-md:   0 4px 20px rgba(26,26,26,0.08), 0 0 0 1px rgba(26,26,26,0.05);
+  --serif:       'Playfair Display', Georgia, serif;
+  --sans:        'Inter', -apple-system, system-ui, sans-serif;
+  --max-w:       1080px;
+  --px:          48px;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; overflow-x:hidden; }
+body {
+  background:var(--parchment); color:var(--ink);
+  font-family:var(--sans); line-height:1.6;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+a { color:inherit; text-decoration:none; }
+.wrap { max-width:var(--max-w); margin:0 auto; padding:0 var(--px); }
+@media(max-width:680px){ :root{ --px:22px; } }
+
+/* ---------- nav ---------- */
+nav {
+  position:sticky; top:0; z-index:50;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px var(--px);
+  background:rgba(255,255,255,0.82); backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo { display:flex; align-items:center; gap:10px; }
+.nav-z-icon {
+  width:26px; height:26px; display:flex; align-items:center; justify-content:center;
+  background:var(--ink); color:var(--white);
+  border-radius:6px; font-family:var(--serif); font-size:14px; font-weight:700;
+}
+.nav-logo-text { font-family:var(--serif); font-size:20px; font-weight:700; letter-spacing:0.06em; color:var(--ink); }
+.nav-links { display:flex; gap:30px; }
+.nav-links a { font-size:13.5px; font-weight:500; color:var(--ink-2); transition:color .2s; }
+.nav-links a:hover { color:var(--terra-dark); }
+.nav-cta {
+  padding:10px 20px; background:var(--ink); color:var(--parchment);
+  border-radius:999px; font-size:13px; font-weight:600; transition:background .2s;
+}
+.nav-cta:hover { background:var(--terra-dark); }
+@media(max-width:680px){ .nav-links{ display:none; } }
+
+/* ---------- hero ---------- */
+.hero { padding:88px 0 60px; }
+.eyebrow {
+  font-family:var(--sans); font-size:12px; font-weight:600; letter-spacing:0.16em;
+  text-transform:uppercase; color:var(--terra-dark); margin-bottom:20px;
+}
+.hero h1 {
+  font-family:var(--serif); font-size:clamp(38px,5.2vw,62px); font-weight:700;
+  line-height:1.06; letter-spacing:-0.01em; max-width:none; margin-bottom:22px;
+}
+.hero h1 em { font-style:italic; color:var(--accent); }
+.hero .lede { font-size:clamp(17px,2vw,20px); color:#555555; line-height:1.7; max-width:none; margin-bottom:34px; }
+.hero-ctas { display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+.btn-ink {
+  padding:15px 30px; background:var(--ink); color:var(--parchment);
+  border-radius:999px; font-size:15px; font-weight:600; transition:transform .15s, background .2s;
+}
+.btn-ink:hover { background:var(--terra-dark); }
+.btn-ink:active { transform:scale(0.98); }
+.btn-text { font-size:15px; font-weight:600; color:var(--ink-2); border-bottom:1px solid var(--stone-2); padding-bottom:2px; transition:color .2s, border-color .2s; }
+.btn-text:hover { color:var(--accent); border-color:var(--accent); }
+.price-strip {
+  display:inline-flex; align-items:center; gap:14px; flex-wrap:wrap;
+  margin-top:40px; padding:14px 22px; background:var(--white);
+  border:1px solid var(--border-2); border-radius:14px; box-shadow:var(--shadow-sm);
+  font-size:14.5px; color:var(--ink-2);
+}
+.price-strip strong { font-family:var(--serif); font-size:19px; color:var(--ink); font-weight:700; }
+.price-strip .dot { width:4px; height:4px; border-radius:50%; background:var(--stone-2); }
+
+/* ---------- sections ---------- */
+section { padding:64px 0; }
+.band { background:var(--parchment-2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+.kicker { font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); margin-bottom:12px; }
+h2 { font-family:var(--serif); font-size:clamp(27px,3.4vw,40px); font-weight:700; line-height:1.12; letter-spacing:-0.01em; max-width:20ch; }
+.sub { color:#555555; font-size:17px; line-height:1.7; max-width:60ch; margin-top:14px; }
+
+/* two lanes */
+.lanes { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:40px; }
+@media(max-width:760px){ .lanes{ grid-template-columns:1fr; } }
+.lane { background:var(--white); border:1px solid var(--border-2); border-radius:18px; padding:30px 30px 34px; box-shadow:var(--shadow-sm); }
+.lane h3 { font-family:var(--serif); font-size:23px; font-weight:700; margin-bottom:6px; }
+.lane .lane-tag { font-size:12px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--terra); margin-bottom:14px; }
+.lane p { color:#555555; font-size:15.5px; margin-bottom:18px; }
+.lane ul { list-style:none; display:flex; flex-direction:column; gap:13px; }
+.lane li { position:relative; padding-left:26px; font-size:15px; color:var(--ink-2); line-height:1.55; }
+.lane li::before { content:""; position:absolute; left:0; top:9px; width:9px; height:9px; border-radius:50%; border:2px solid var(--terra); }
+.lane li b { font-weight:600; color:var(--ink); }
+
+/* golden-zone 2x2 */
+.matrix-wrap { display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center; margin-top:36px; }
+@media(max-width:760px){ .matrix-wrap{ grid-template-columns:1fr; } }
+.matrix { position:relative; aspect-ratio:1/1; max-width:360px; border:1px solid var(--border-2); border-radius:14px; background:var(--white); display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; overflow:hidden; box-shadow:var(--shadow-sm); }
+.cell { display:flex; align-items:center; justify-content:center; text-align:center; padding:14px; font-size:12.5px; font-weight:600; color:var(--stone); border:1px solid var(--border); }
+.cell.gold { background:var(--accent); color:var(--white); font-family:var(--serif); font-size:14px; }
+.axis-x, .axis-y { font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--stone); font-weight:600; }
+.axis-x { text-align:center; margin-top:10px; }
+.matrix-copy h3 { font-family:var(--serif); font-size:24px; font-weight:700; margin-bottom:12px; }
+.matrix-copy p { color:#555555; font-size:15.5px; margin-bottom:12px; }
+
+/* deliverables / steps */
+.grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:40px; }
+@media(max-width:760px){ .grid3{ grid-template-columns:1fr; } }
+.tile { background:var(--white); border:1px solid var(--border-2); border-radius:16px; padding:26px; box-shadow:var(--shadow-sm); }
+.spec-row:first-child { box-shadow:inset 3px 0 0 var(--accent); }
+.tile .num { font-family:var(--serif); font-size:15px; font-weight:700; color:var(--white); background:var(--accent); width:30px; height:30px; border-radius:8px; display:flex; align-items:center; justify-content:center; margin-bottom:16px; }
+.tile h4 { font-family:var(--serif); font-size:19px; font-weight:700; margin-bottom:8px; }
+.tile p { color:#555555; font-size:14.5px; line-height:1.6; }
+
+.steps { display:flex; flex-direction:column; gap:2px; margin-top:36px; max-width:760px; }
+.step { display:flex; gap:20px; padding:22px 0; border-bottom:1px solid var(--border); }
+.step:last-child { border-bottom:none; }
+.step .s-num { font-family:var(--serif); font-size:30px; font-weight:700; color:var(--stone-2); line-height:1; min-width:46px; }
+.step .s-body h4 { font-family:var(--serif); font-size:18px; font-weight:700; margin-bottom:4px; }
+.step .s-body p { color:#555555; font-size:15px; }
+
+.why { max-width:720px; }
+.why p { font-size:17px; line-height:1.75; color:var(--ink-2); margin-bottom:18px; }
+.why p strong { color:var(--ink); }
+.pull { font-family:var(--serif); font-size:clamp(22px,2.8vw,30px); font-weight:600; font-style:italic; line-height:1.3; color:var(--terra-dark); margin:8px 0 4px; }
+
+/* ---------- form ---------- */
+.book { background:var(--ink); color:var(--parchment); }
+.book h2 { color:var(--white); }
+.book .sub { color:#B8B8B8; }
+.form-card { background:var(--parchment-2); color:var(--ink); border-radius:20px; padding:38px; margin-top:36px; max-width:680px; box-shadow:var(--shadow-md); }
+.field { margin-bottom:22px; }
+.field label { display:block; font-size:13px; font-weight:600; letter-spacing:0.02em; color:var(--ink); margin-bottom:8px; }
+.field label .opt { color:var(--stone); font-weight:400; }
+.field input, .field textarea, .field select {
+  width:100%; padding:14px 16px; font-family:var(--sans); font-size:15px; color:var(--ink);
+  background:var(--white); border:1px solid var(--border-2); border-radius:11px; transition:border-color .2s, box-shadow .2s;
+}
+.field input:focus, .field textarea:focus, .field select:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(30,98,244,0.16); }
+.field textarea { resize:vertical; min-height:96px; }
+.hp { position:absolute; left:-5000px; }
+.form-submit { width:100%; padding:16px; background:var(--accent); color:#fff; border:none; border-radius:999px; font-family:var(--sans); font-size:15.5px; font-weight:600; cursor:pointer; transition:background .2s, transform .15s; }
+.form-submit:hover { background:var(--accent-deep); }
+.form-submit:active { transform:scale(0.99); }
+.form-note { font-size:13px; color:var(--stone); margin-top:16px; line-height:1.6; text-align:center; }
+.form-success { display:none; text-align:center; padding:30px 10px; }
+.form-success.show { display:block; }
+.form-success .check { width:54px; height:54px; border-radius:50%; background:var(--accent); color:var(--white); display:flex; align-items:center; justify-content:center; font-size:26px; margin:0 auto 18px; }
+.form-success h3 { font-family:var(--serif); font-size:25px; font-weight:700; margin-bottom:10px; }
+.form-success p { color:#555555; font-size:15.5px; max-width:42ch; margin:0 auto; }
+
+/* ---------- checklist ---------- */
+.checklist { display:grid; grid-template-columns:1fr 1fr; gap:2px 36px; margin-top:34px; max-width:880px; }
+@media(max-width:680px){ .checklist{ grid-template-columns:1fr; } }
+.check-item { display:flex; align-items:flex-start; gap:13px; padding:15px 2px; border-bottom:1px solid var(--border); font-size:15.5px; color:var(--ink); line-height:1.45; }
+.check-item .tick { flex:0 0 22px; width:22px; height:22px; border-radius:6px; background:var(--accent-tint); color:var(--accent); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; margin-top:1px; }
+
+/* ---------- product spec sheet ---------- */
+#spec h2 { max-width:none; }
+.spec { margin-top:38px; background:var(--white); border:1px solid var(--border-2); border-radius:18px; overflow:hidden; box-shadow:var(--shadow-md); display:grid; grid-template-columns:repeat(3,1fr); }
+@media(max-width:760px){ .spec{ grid-template-columns:1fr 1fr; } }
+@media(max-width:480px){ .spec{ grid-template-columns:1fr; } }
+.spec-row { display:flex; flex-direction:column; gap:9px; padding:26px 28px; border-right:1px solid var(--border); border-bottom:1px solid var(--border); }
+.spec-k { font-size:11.5px; font-weight:600; letter-spacing:0.11em; text-transform:uppercase; color:var(--stone); }
+.spec-v { font-size:16px; color:var(--ink); line-height:1.5; }
+.spec-v strong { font-family:var(--serif); font-size:24px; font-weight:700; display:block; margin-bottom:3px; }
+.spec-v .free { display:block; color:var(--accent); font-weight:600; font-size:14.5px; }
+.offering-badge { display:inline-flex; align-items:center; gap:9px; padding:7px 14px; background:var(--accent-tint); border:1px solid rgba(30,98,244,0.22); border-radius:999px; font-size:11.5px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent-deep); margin-bottom:22px; }
+.offering-badge .pip { width:7px; height:7px; border-radius:50%; background:var(--accent); }
+
+/* ---------- hero illustration ---------- */
+.hero-art { margin-top:50px; background:linear-gradient(180deg,#FBFCFE,#F1F5FE); border:1px solid var(--border); border-radius:22px; padding:26px 26px 18px; }
+.hero-art svg { width:100%; height:auto; max-height:300px; display:block; }
+.hero-art .cap { text-align:center; font-family:var(--serif); font-style:italic; font-size:15px; color:#5a5a5a; margin-top:16px; max-width:60ch; margin-left:auto; margin-right:auto; line-height:1.55; }
+.hero-art .cap b { color:var(--accent); font-style:normal; font-weight:700; }
+
+/* ---------- why / illustration ---------- */
+.why-split { display:grid; grid-template-columns:1.15fr 0.85fr; gap:50px; align-items:center; }
+@media(max-width:760px){ .why-split{ grid-template-columns:1fr; gap:28px; } }
+.why-copy .pull { margin-bottom:18px; }
+.why-art svg { width:100%; height:auto; max-height:280px; display:block; }
+
+/* ---------- journey / process map ---------- */
+.jcenter { text-align:center; }
+.jcenter h2 { margin:0 auto; max-width:24ch; }
+.flow { margin:48px auto 0; max-width:760px; }
+.flow-step { display:grid; grid-template-columns:48px 1fr; gap:26px; }
+.flow-rail { display:flex; flex-direction:column; align-items:center; }
+.flow-node { width:46px; height:46px; flex:0 0 46px; border-radius:50%; background:var(--accent); color:#fff; font-family:var(--serif); font-weight:700; font-size:18px; display:flex; align-items:center; justify-content:center; }
+.flow-line { flex:1; width:2px; background:var(--border-2); margin:8px 0 0; }
+.flow-body { display:grid; grid-template-columns:104px 1fr; gap:24px; align-items:center; padding-bottom:40px; }
+@media(max-width:600px){ .flow-body{ grid-template-columns:1fr; gap:14px; } .flow-art{ margin:0 auto; } }
+.flow-art { width:104px; height:104px; background:#FAFBFE; border:1px solid var(--border); border-radius:16px; padding:10px; }
+.flow-art svg { width:100%; height:100%; display:block; }
+.flow-text h3 { font-family:var(--serif); font-size:21px; font-weight:700; margin-bottom:7px; }
+.flow-text p { color:#555; font-size:15px; line-height:1.6; }
+.journey-cta { text-align:center; margin-top:18px; padding:48px 24px; background:var(--ink); border-radius:22px; }
+.journey-cta h3 { font-family:var(--serif); color:#fff; font-size:clamp(22px,3vw,30px); font-weight:700; margin:0 auto 24px; max-width:22ch; line-height:1.2; }
+.btn-cta { display:inline-block; padding:17px 38px; background:var(--accent); color:#fff; border-radius:999px; font-size:16px; font-weight:700; transition:background .2s, transform .15s; }
+.btn-cta:hover { background:var(--accent-deep); }
+.btn-cta:active { transform:scale(.98); }
+
+/* ---------- book section (full-screen, centered) ---------- */
+.book { min-height:100vh; display:flex; align-items:center; padding:80px 0; }
+.book-inner { width:100%; }
+.book-head { text-align:center; max-width:none; margin:0 auto; }
+.book-head h2 { max-width:none; white-space:nowrap; margin:0 auto; }
+@media(max-width:430px){ .book-head h2 { white-space:normal; } }
+.book-head .sub { margin:14px auto 0; }
+.book .form-card { margin:38px auto 0; max-width:none; padding:42px; }
+.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:0 26px; }
+@media(max-width:640px){ .form-grid{ grid-template-columns:1fr; } }
+.form-grid .span2 { grid-column:1 / -1; }
+/* two people contact cards under the form */
+.people { display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:none; margin:40px auto 0; }
+@media(max-width:520px){ .people{ grid-template-columns:1fr; } }
+.person { display:flex; align-items:center; gap:26px; text-align:left; padding:30px 34px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.13); border-radius:20px; }
+.person-photo { width:104px; height:104px; flex:0 0 104px; border-radius:50%; object-fit:cover; border:3px solid var(--accent); }
+.person-name { font-family:var(--serif); font-size:26px; font-weight:700; color:#fff; }
+.person-role { font-size:13.5px; color:#9A9A9A; letter-spacing:.04em; margin-bottom:8px; }
+.person-link { display:inline-block; font-size:16px; color:#CFCFCF; text-decoration:none; transition:color .2s; }
+.person-link:hover { color:var(--accent); }
+
+/* ---------- footer ---------- */
+footer { background:var(--parchment-2); border-top:1px solid var(--border); padding:40px var(--px); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:18px; }
+.foot-logo { font-family:var(--serif); font-size:18px; font-weight:700; letter-spacing:0.08em; }
+.foot-copy { font-size:13px; color:var(--stone); }
+.foot-links { display:flex; gap:22px; flex-wrap:wrap; }
+.foot-links a { font-size:13px; color:var(--ink-2); transition:color .2s; }
+.foot-links a:hover { color:var(--terra-dark); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo"><span class="nav-z-icon">Z</span><span class="nav-logo-text">ZACKY</span></a>
+  <div class="nav-links">
+    <a href="/#solutions">What we do</a>
+    <a href="/#our-apps">Our apps</a>
+    <a href="/#about">Who we are</a>
+  </div>
+  <a href="#book" class="nav-cta">Book the Audit</a>
+</nav>
+
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="offering-badge"><span class="pip"></span>The Automation Audit</div>
+    <h1>Not sure where to start automating? <em>Start here.</em></h1>
+    <p class="lede">A fixed-scope, one-week engagement that tells you exactly what to automate first — in your role or across your business — and what it's worth. You opt in, we map it, you walk away with a ranked plan.</p>
+    <div class="hero-ctas">
+      <a href="#book" class="btn-ink">Help me get started →</a>
+    </div>
+
+    <div class="hero-art">
+      <svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A desk that sorts itself: laptop, coffee, papers flying into a checklist that completes on its own">
+        <g fill="none" stroke="#0A0A0A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M120 244 H660"/>
+          <rect x="250" y="176" width="120" height="74" rx="6"/>
+          <path d="M236 250 h148"/>
+          <path d="M410 232 v-30 h34 v30 a17 17 0 0 1 -34 0Z"/><path d="M444 208 h12 a9 9 0 0 1 0 18 h-3"/><path d="M420 192 c0 -8 8 -8 8 -16 M432 192 c0 -8 8 -8 8 -16"/>
+          <path d="M168 96 a26 26 0 1 1 -19 8"/><path d="M148 100 l-2 -13 12 4Z" fill="#1E62F4" stroke="none"/>
+        </g>
+        <rect x="258" y="184" width="104" height="58" rx="3" fill="#EAF1FE"/>
+        <g fill="#1E62F4"><rect x="270" y="196" width="44" height="6" rx="3"/><rect x="270" y="210" width="60" height="6" rx="3" opacity=".5"/><rect x="270" y="224" width="36" height="6" rx="3" opacity=".5"/></g>
+        <g fill="#fff" stroke="#0A0A0A" stroke-width="3" stroke-linejoin="round"><rect x="520" y="150" width="120" height="150" rx="10"/></g>
+        <g><circle cx="548" cy="186" r="11" fill="#1E62F4"/><path d="M543 186l4 4 8-9" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+           <circle cx="548" cy="222" r="11" fill="#1E62F4"/><path d="M543 222l4 4 8-9" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+           <circle cx="548" cy="258" r="11" fill="#EAF1FE" stroke="#1E62F4" stroke-width="2.5"/></g>
+        <g fill="#000" opacity=".15"><rect x="568" y="182" width="56" height="8" rx="4"/><rect x="568" y="218" width="56" height="8" rx="4"/><rect x="568" y="254" width="44" height="8" rx="4"/></g>
+        <g fill="#fff" stroke="#0A0A0A" stroke-width="2.5" stroke-linejoin="round">
+          <rect x="404" y="120" width="40" height="50" rx="5" transform="rotate(-16 424 145)"/>
+          <rect x="456" y="100" width="40" height="50" rx="5" transform="rotate(-8 476 125)"/>
+        </g>
+        <path d="M396 168 Q470 60 524 150" fill="none" stroke="#1E62F4" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<!-- SPEC -->
+<section id="spec" class="band">
+  <div class="wrap">
+    <div class="kicker">The offering, at a glance</div>
+    <h2>One product. Fixed scope. No mystery.</h2>
+    <div class="spec">
+      <div class="spec-row"><div class="spec-k">Price</div><div class="spec-v"><strong>$999</strong><span class="free">Credited to month one if we build</span></div></div>
+      <div class="spec-row"><div class="spec-k">Timeline</div><div class="spec-v">One week, start to plan in your hands</div></div>
+      <div class="spec-row"><div class="spec-k">Scope</div><div class="spec-v">Your own role, or your whole operation — you choose</div></div>
+      <div class="spec-row"><div class="spec-k">Format</div><div class="spec-v">One recorded 60–90 min call + a review of the tools that run your day</div></div>
+      <div class="spec-row"><div class="spec-k">Deliverable</div><div class="spec-v">A ranked, plain-English automation plan — yours to keep</div></div>
+      <div class="spec-row"><div class="spec-k">Commitment</div><div class="spec-v">None. Build with us, or take the plan and run.</div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- JOURNEY -->
+<section id="how">
+  <div class="wrap">
+    <div class="jcenter">
+      <div class="kicker">How it works</div>
+      <h2>From "where do I even start?" to running on rails.</h2>
+    </div>
+    <div class="flow">
+
+      <div class="flow-step">
+        <div class="flow-rail"><span class="flow-node">1</span><span class="flow-line"></span></div>
+        <div class="flow-body">
+          <div class="flow-art"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M28 96 C28 78 40 70 52 70 C64 70 76 78 76 96 Z" fill="#1E62F4" stroke="#0A0A0A" stroke-width="3" stroke-linejoin="round"/>
+            <circle cx="52" cy="50" r="17" fill="#F4C9A3" stroke="#0A0A0A" stroke-width="3"/>
+            <path d="M35 50 C33 33 71 33 69 50 C69 40 61 35 52 35 C43 35 35 40 35 50Z" fill="#3A2E26"/>
+            <circle cx="46" cy="49" r="2.4" fill="#0A0A0A"/><circle cx="58" cy="49" r="2.4" fill="#0A0A0A"/>
+            <path d="M46 62 q6 -5 12 0" stroke="#0A0A0A" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+            <circle cx="92" cy="34" r="15" fill="#EAF1FE" stroke="#1E62F4" stroke-width="2.5"/>
+            <text x="92" y="40" font-family="Playfair Display,serif" font-size="18" font-weight="700" fill="#1E62F4" text-anchor="middle">?</text>
+            <path d="M88 70 l8 8 -8 8 M100 70 l8 8 -8 8" stroke="#1E62F4" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg></div>
+          <div class="flow-text"><h3>You see it happening</h3><p>Businesses everywhere are automating the busywork — and it's hard to tell where you'd even start. Nobody wants to be the one left behind.</p></div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-rail"><span class="flow-node">2</span><span class="flow-line"></span></div>
+        <div class="flow-body">
+          <div class="flow-art"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="30" y="26" width="56" height="72" rx="8" fill="#fff" stroke="#0A0A0A" stroke-width="3"/>
+            <rect x="46" y="18" width="24" height="14" rx="4" fill="#EAF1FE" stroke="#0A0A0A" stroke-width="3"/>
+            <g fill="#000" opacity=".16"><rect x="40" y="44" width="32" height="6" rx="3"/><rect x="40" y="58" width="36" height="6" rx="3"/><rect x="40" y="72" width="26" height="6" rx="3"/></g>
+            <circle cx="80" cy="80" r="16" fill="rgba(30,98,244,0.10)" stroke="#1E62F4" stroke-width="3"/>
+            <path d="M91 91 l13 13" stroke="#1E62F4" stroke-width="4" stroke-linecap="round"/>
+          </svg></div>
+          <div class="flow-text"><h3>You book the audit</h3><p>In one recorded call, you walk us through how the work actually moves today — your tools, your systems, the handoffs that eat your week.</p></div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-rail"><span class="flow-node">3</span><span class="flow-line"></span></div>
+        <div class="flow-body">
+          <div class="flow-art"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M60 26 a23 23 0 0 1 15 40 c-3 3 -4 6 -4 10 h-22 c0 -4 -1 -7 -4 -10 a23 23 0 0 1 15 -40Z" fill="#EAF1FE" stroke="#0A0A0A" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M50 86 h20 M52 94 h16" stroke="#0A0A0A" stroke-width="3" stroke-linecap="round"/>
+            <path d="M60 46 v16 M52 54 h16" stroke="#1E62F4" stroke-width="3" stroke-linecap="round"/>
+            <g fill="#1E62F4"><path d="M28 42 q2 6 8 8 q-6 2 -8 8 q-2 -6 -8 -8 q6 -2 8 -8Z"/><path d="M94 38 q1.5 5 6 6 q-4.5 1.5 -6 6 q-1.5 -4.5 -6 -6 q4.5 -1.5 6 -6Z"/></g>
+          </svg></div>
+          <div class="flow-text"><h3>You dream</h3><p>Then we ask the better question: if the busywork just ran itself, what would your week actually look like? Where would the freed-up time go?</p></div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-rail"><span class="flow-node">4</span><span class="flow-line"></span></div>
+        <div class="flow-body">
+          <div class="flow-art"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M26 36 C52 36 52 60 72 60" stroke="#1E62F4" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M26 84 C52 84 52 60 72 60" stroke="#9A9A9A" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <circle cx="26" cy="36" r="8" fill="#1E62F4"/>
+            <circle cx="26" cy="84" r="8" fill="#EAF1FE" stroke="#1E62F4" stroke-width="2.5"/>
+            <circle cx="86" cy="60" r="17" fill="#fff" stroke="#0A0A0A" stroke-width="3"/>
+            <path d="M78 60 l6 6 10 -11" stroke="#1E62F4" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg></div>
+          <div class="flow-text"><h3>We combine the two</h3><p>We merge where you are with where you want to be into one ranked plan — the highest-value, lowest-effort wins first, so it pays for itself fast.</p></div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-rail"><span class="flow-node">5</span></div>
+        <div class="flow-body">
+          <div class="flow-art"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M26 94 H98" stroke="#0A0A0A" stroke-width="3" stroke-linecap="round"/>
+            <path d="M30 80 L50 58 L64 70 L92 38" stroke="#1E62F4" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M80 36 l14 0 0 14Z" fill="#1E62F4"/>
+            <circle cx="50" cy="58" r="4" fill="#1E62F4"/><circle cx="64" cy="70" r="4" fill="#1E62F4"/>
+          </svg></div>
+          <div class="flow-text"><h3>You operate at a higher level</h3><p>The repetitive work runs on its own. What's left is the work that actually matters — done with more clarity, confidence, and capacity than before.</p></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="journey-cta">
+      <h3>Operating at a higher level starts with one week.</h3>
+      <a href="#book" class="btn-cta">Get Started — Book Your Audit →</a>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK -->
+<section id="book" class="book">
+  <div class="wrap book-inner">
+    <div class="book-head">
+      <h2>Contact Us. We Can Help.</h2>
+    </div>
+
+    <div class="form-card">
+      <form name="audit-intake" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="auditForm">
+        <input type="hidden" name="form-name" value="audit-intake">
+        <p class="hp"><label>Don't fill this out: <input name="bot-field"></label></p>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="name">Your name</label>
+            <input type="text" id="name" name="name" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required autocomplete="email">
+          </div>
+          <div class="field">
+            <label for="business">Business / role <span class="opt">(optional)</span></label>
+            <input type="text" id="business" name="business" autocomplete="organization">
+          </div>
+          <div class="field">
+            <label for="lane">What are we automating?</label>
+            <select id="lane" name="which_lane">
+              <option value="My own role">My own role — automate my desk</option>
+              <option value="My business">My business — automate the operation</option>
+              <option value="Not sure yet">Not sure yet — help me figure that out</option>
+            </select>
+          </div>
+          <div class="field span2">
+            <label for="task">The one task that eats your week</label>
+            <textarea id="task" name="biggest_task" placeholder="e.g. Every Friday I rebuild the same report by hand from three spreadsheets…" required></textarea>
+          </div>
+          <button type="submit" class="form-submit span2">Book my audit →</button>
+          <p class="form-note span2">$999, paid up front · fully credited toward your first month if we build. No payment is taken on this form — we'll send the link with your call time.</p>
+        </div>
+      </form>
+
+      <div class="form-success" id="formSuccess">
+        <div class="check">✓</div>
+        <h3>Got it — thank you.</h3>
+        <p>We read every one of these. You'll hear back from us at the email you gave with a time to talk and the payment link. Talk soon. — Kara, Zacky</p>
+      </div>
+    </div>
+
+    <div class="people">
+      <div class="person">
+        <img src="images/kara.png" class="person-photo" alt="Kara" loading="lazy">
+        <div class="person-info">
+          <div class="person-name">Kara</div>
+          <div class="person-role">Co-founder, Zacky</div>
+          <a href="mailto:kara@zacky.co" class="person-link">kara@zacky.co</a>
+        </div>
+      </div>
+      <div class="person">
+        <img src="images/evelyn.jpg" class="person-photo" alt="Evelyn" loading="lazy">
+        <div class="person-info">
+          <div class="person-name">Evelyn</div>
+          <div class="person-role">Co-founder, Zacky</div>
+          <a href="mailto:evelyn@zacky.co" class="person-link">evelyn@zacky.co</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="foot-logo">ZACKY</span>
+  <p class="foot-copy">© 2026 Zacky · Grand Rapids, Michigan</p>
+  <div class="foot-links">
+    <a href="/#solutions">Services</a>
+    <a href="/#process">Process</a>
+    <a href="/#about">About</a>
+    <a href="mailto:kara@zacky.co">kara@zacky.co</a>
+  </div>
+</footer>
+
+<script>
+// AJAX-submit the Netlify form so visitors stay on the page and see a thank-you.
+// Netlify still detects the form from the deployed HTML (data-netlify="true").
+const form = document.getElementById('auditForm');
+const success = document.getElementById('formSuccess');
+form.addEventListener('submit', function (e) {
+  e.preventDefault();
+  const data = new FormData(form);
+  fetch('/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams(data).toString()
+  })
+  .then(function () {
+    form.style.display = 'none';
+    success.classList.add('show');
+    success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  })
+  .catch(function () {
+    // Fallback: let the browser do a normal POST if fetch fails.
+    form.submit();
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audit page — illustration options</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0A0A0A; --ink2:#2A2A2A; --stone:#9A9A9A; --line:rgba(0,0,0,.10);
+  --accent:#1E62F4; --accent-deep:#0E4FC9; --tint:#EAF1FE;
+  --serif:'Playfair Display',Georgia,serif; --sans:'Inter',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--sans);background:#fff;color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+.head{max-width:1100px;margin:0 auto;padding:54px 32px 14px}
+.head .ey{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.head h1{font-family:var(--serif);font-size:38px;font-weight:700;letter-spacing:-.01em;margin-bottom:10px}
+.head p{color:#555;font-size:16px;max-width:64ch}
+.grid{max-width:1100px;margin:0 auto;padding:28px 32px 80px;display:grid;grid-template-columns:1fr 1fr;gap:26px}
+@media(max-width:780px){.grid{grid-template-columns:1fr}}
+.opt{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,.05)}
+.opt .art{background:#FBFBFA;border-bottom:1px solid var(--line);padding:20px;display:flex;align-items:center;justify-content:center;aspect-ratio:11/8}
+.opt .art svg{width:100%;height:100%;max-height:300px}
+.opt .meta{padding:20px 24px 24px}
+.opt .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:var(--tint);padding:4px 10px;border-radius:999px;margin-bottom:10px}
+.opt h3{font-family:var(--serif);font-size:22px;font-weight:700;margin-bottom:6px}
+.opt p{color:#555;font-size:14.5px}
+.full{grid-column:1/-1}
+.note{max-width:1100px;margin:0 auto;padding:0 32px 70px;color:#555;font-size:15px}
+.note b{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="head">
+  <div class="ey">Audit page · hero illustration</div>
+  <h1>Five directions — pick one.</h1>
+  <p>All on the same white / black / blue palette as the page. Tell me the number (and any tweak) and I'll drop it into the live hero. We can recolor or restyle any of them.</p>
+</div>
+
+<div class="grid">
+
+  <!-- ============ OPTION 1 — CARTOON OPERATOR ============ -->
+  <div class="opt">
+    <div class="art">
+      <svg viewBox="0 0 440 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cartoon operator presenting an automated checklist">
+        <path d="M60 120 C40 60 165 28 255 50 C365 78 412 165 378 252 C348 330 218 350 138 320 C48 286 80 178 60 120Z" fill="#EAF1FE"/>
+        <!-- automation card -->
+        <g transform="rotate(-6 320 130)">
+          <rect x="252" y="64" width="152" height="124" rx="16" fill="#fff" stroke="#0A0A0A" stroke-width="3"/>
+          <circle cx="270" cy="84" r="4" fill="#1E62F4"/><rect x="284" y="80" width="58" height="8" rx="4" fill="#0A0A0A"/>
+          <rect x="268" y="106" width="16" height="16" rx="5" fill="#1E62F4"/><path d="M272 114l3 3 6-7" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="294" y="110" width="84" height="8" rx="4" fill="#000" opacity=".14"/>
+          <rect x="268" y="134" width="16" height="16" rx="5" fill="#1E62F4"/><path d="M272 142l3 3 6-7" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="294" y="138" width="72" height="8" rx="4" fill="#000" opacity=".14"/>
+          <rect x="268" y="162" width="16" height="16" rx="5" fill="#EAF1FE" stroke="#1E62F4" stroke-width="2"/><rect x="294" y="166" width="60" height="8" rx="4" fill="#000" opacity=".14"/>
+        </g>
+        <!-- sparkles -->
+        <g fill="#1E62F4"><path d="M222 66q3 9 12 12q-9 3 -12 12q-3 -9 -12 -12q9 -3 12 -12Z"/><path d="M398 232q2 6 8 8q-6 2 -8 8q-2 -6 -8 -8q6 -2 8 -8Z"/></g>
+        <!-- avatar -->
+        <path d="M70 342 C70 290 106 270 140 270 C174 270 210 290 210 342 Z" fill="#1E62F4" stroke="#0A0A0A" stroke-width="3" stroke-linejoin="round"/>
+        <rect x="128" y="244" width="24" height="34" rx="10" fill="#F4C9A3" stroke="#0A0A0A" stroke-width="3"/>
+        <circle cx="140" cy="208" r="40" fill="#F4C9A3" stroke="#0A0A0A" stroke-width="3"/>
+        <path d="M100 210 C96 166 184 166 180 210 C180 188 162 178 140 178 C118 178 100 188 100 210 Z" fill="#3A2E26"/>
+        <circle cx="127" cy="206" r="3.6" fill="#0A0A0A"/><circle cx="153" cy="206" r="3.6" fill="#0A0A0A"/>
+        <path d="M126 221 Q140 231 154 221" stroke="#0A0A0A" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <circle cx="119" cy="219" r="5" fill="#F2A98C" opacity=".5"/><circle cx="161" cy="219" r="5" fill="#F2A98C" opacity=".5"/>
+        <path d="M198 300 Q232 286 248 244" stroke="#0A0A0A" stroke-width="26" fill="none" stroke-linecap="round"/>
+        <path d="M198 300 Q232 286 248 244" stroke="#1E62F4" stroke-width="20" fill="none" stroke-linecap="round"/>
+        <circle cx="252" cy="234" r="14" fill="#F4C9A3" stroke="#0A0A0A" stroke-width="3"/>
+      </svg>
+    </div>
+    <div class="meta">
+      <span class="tag">Option 1 · Cartoon</span>
+      <h3>The friendly operator</h3>
+      <p>A personable character presenting a checklist that ticks itself off. Warm, human, a little playful — not childish. Reinforces "someone runs this for you."</p>
+    </div>
+  </div>
+
+  <!-- ============ OPTION 2 — NODE FLOW ============ -->
+  <div class="opt">
+    <div class="art">
+      <svg viewBox="0 0 440 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Abstract workflow: scattered inputs flowing through a hub into organized output">
+        <!-- inputs -->
+        <g stroke="#0A0A0A" stroke-width="3">
+          <rect x="34" y="70" width="86" height="58" rx="12" fill="#fff"/><rect x="34" y="151" width="86" height="58" rx="12" fill="#fff"/><rect x="34" y="232" width="86" height="58" rx="12" fill="#fff"/>
+        </g>
+        <g fill="#000" opacity=".16"><rect x="48" y="86" width="40" height="7" rx="3.5"/><rect x="48" y="100" width="58" height="7" rx="3.5"/><rect x="48" y="167" width="40" height="7" rx="3.5"/><rect x="48" y="181" width="58" height="7" rx="3.5"/><rect x="48" y="248" width="40" height="7" rx="3.5"/><rect x="48" y="262" width="58" height="7" rx="3.5"/></g>
+        <!-- connectors -->
+        <g fill="none" stroke-linecap="round"><path d="M120 99 C160 99 175 180 205 180" stroke="#9A9A9A" stroke-width="2.5"/><path d="M120 180 H205" stroke="#1E62F4" stroke-width="3"/><path d="M120 261 C160 261 175 180 205 180" stroke="#9A9A9A" stroke-width="2.5"/></g>
+        <!-- hub -->
+        <circle cx="232" cy="180" r="46" fill="#EAF1FE" stroke="#1E62F4" stroke-width="3"/>
+        <path d="M232 158 a22 22 0 1 1 -16 7" fill="none" stroke="#1E62F4" stroke-width="3" stroke-linecap="round"/>
+        <path d="M214 165 l2 -10 8 4Z" fill="#1E62F4"/>
+        <!-- hub to output -->
+        <path d="M278 180 H318" fill="none" stroke="#1E62F4" stroke-width="3" stroke-linecap="round"/><path d="M312 174 l10 6 -10 6Z" fill="#1E62F4"/>
+        <!-- output -->
+        <rect x="324" y="120" width="86" height="120" rx="14" fill="#fff" stroke="#0A0A0A" stroke-width="3"/>
+        <g fill="#1E62F4"><rect x="338" y="140" width="58" height="8" rx="4"/><rect x="338" y="160" width="58" height="8" rx="4"/><rect x="338" y="180" width="44" height="8" rx="4"/></g>
+        <circle cx="395" cy="216" r="13" fill="#1E62F4"/><path d="M389 216l4 4 8-9" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="meta">
+      <span class="tag">Option 2 · Abstract</span>
+      <h3>Messy in, organized out</h3>
+      <p>Scattered inputs flow through one hub and come out ranked and clean — the audit's whole story, no characters. Techy, calm, very on-brand.</p>
+    </div>
+  </div>
+
+  <!-- ============ OPTION 3 — DASHBOARD MOCKUP ============ -->
+  <div class="opt">
+    <div class="art">
+      <svg viewBox="0 0 440 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Stylized operations dashboard">
+        <rect x="46" y="54" width="348" height="252" rx="18" fill="#fff" stroke="#0A0A0A" stroke-width="3"/>
+        <path d="M46 84 h348" stroke="#0A0A0A" stroke-width="3"/>
+        <circle cx="66" cy="69" r="4" fill="#1E62F4"/><circle cx="80" cy="69" r="4" fill="#000" opacity=".18"/><circle cx="94" cy="69" r="4" fill="#000" opacity=".18"/>
+        <!-- sidebar -->
+        <path d="M120 84 V306" stroke="#000" stroke-width="2" opacity=".12"/>
+        <g fill="#000" opacity=".14"><rect x="60" y="108" width="44" height="7" rx="3.5"/><rect x="60" y="126" width="44" height="7" rx="3.5"/><rect x="60" y="144" width="44" height="7" rx="3.5"/></g>
+        <rect x="56" y="104" width="52" height="15" rx="6" fill="#EAF1FE"/>
+        <!-- bars -->
+        <g><rect x="142" y="186" width="26" height="56" rx="5" fill="#000" opacity=".14"/><rect x="180" y="160" width="26" height="82" rx="5" fill="#000" opacity=".14"/><rect x="218" y="132" width="26" height="110" rx="5" fill="#1E62F4"/><rect x="256" y="172" width="26" height="70" rx="5" fill="#000" opacity=".14"/></g>
+        <path d="M142 242 H300" stroke="#000" stroke-width="2" opacity=".15"/>
+        <!-- stat pills right -->
+        <rect x="312" y="108" width="66" height="46" rx="10" fill="#EAF1FE"/><rect x="324" y="120" width="30" height="9" rx="4.5" fill="#1E62F4"/><rect x="324" y="136" width="42" height="6" rx="3" fill="#1E62F4" opacity=".5"/>
+        <rect x="312" y="166" width="66" height="46" rx="10" fill="#fff" stroke="#000" stroke-opacity=".14" stroke-width="2"/><rect x="324" y="178" width="30" height="9" rx="4.5" fill="#000" opacity=".5"/><rect x="324" y="194" width="42" height="6" rx="3" fill="#000" opacity=".2"/>
+        <!-- list row -->
+        <g><circle cx="156" cy="266" r="9" fill="#1E62F4"/><path d="M151 266l4 4 7-8" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="174" y="262" width="120" height="8" rx="4" fill="#000" opacity=".14"/><rect x="312" y="261" width="40" height="11" rx="5.5" fill="#EAF1FE"/></g>
+      </svg>
+    </div>
+    <div class="meta">
+      <span class="tag">Option 3 · Product</span>
+      <h3>The dashboard you'd get</h3>
+      <p>A stylized operations view — charts, stats, tasks checked off. Shows the kind of thing the work turns into. Most literal / "software" feel.</p>
+    </div>
+  </div>
+
+  <!-- ============ OPTION 4 — GOLDEN ZONE ============ -->
+  <div class="opt">
+    <div class="art">
+      <svg viewBox="0 0 440 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Value versus effort grid with task chips landing in the golden zone">
+        <!-- axes -->
+        <path d="M120 60 V300 H392" fill="none" stroke="#0A0A0A" stroke-width="3" stroke-linecap="round"/>
+        <path d="M120 60 l-7 12 14 0Z" fill="#0A0A0A"/><path d="M392 300 l-12 -7 0 14Z" fill="#0A0A0A"/>
+        <!-- grid -->
+        <path d="M256 70 V300 M120 185 H388" stroke="#000" stroke-width="2" opacity=".12"/>
+        <!-- golden cell -->
+        <rect x="124" y="74" width="128" height="107" rx="10" fill="#EAF1FE"/>
+        <path d="M168 110 l6 12 13 2 -9 9 2 13 -12 -6 -12 6 2 -13 -9 -9 13 -2Z" fill="#1E62F4"/>
+        <!-- chips landing in golden -->
+        <g stroke="#0A0A0A" stroke-width="2.5" fill="#fff"><rect x="196" y="92" width="40" height="22" rx="7"/><rect x="206" y="128" width="40" height="22" rx="7"/></g>
+        <!-- other scattered chips -->
+        <g stroke="#9A9A9A" stroke-width="2.5" fill="#fff"><rect x="300" y="120" width="40" height="22" rx="7"/><rect x="290" y="232" width="40" height="22" rx="7"/><rect x="150" y="232" width="40" height="22" rx="7"/></g>
+        <!-- labels -->
+        <text x="60" y="80" font-family="Inter" font-size="11" font-weight="700" fill="#9A9A9A" transform="rotate(-90 60 80)" letter-spacing="1">VALUE</text>
+        <text x="250" y="326" font-family="Inter" font-size="11" font-weight="700" fill="#9A9A9A" letter-spacing="1">EFFORT</text>
+        <text x="138" y="64" font-family="Playfair Display" font-size="14" font-weight="700" fill="#1E62F4">Start here</text>
+      </svg>
+    </div>
+    <div class="meta">
+      <span class="tag">Option 4 · Concept</span>
+      <h3>The golden zone</h3>
+      <p>The value-vs-effort idea as the hero art — tasks sorted, the winners landing in the blue corner. Doubles down on the method that makes the audit credible.</p>
+    </div>
+  </div>
+
+  <!-- ============ OPTION 5 — LINE-ART SCENE ============ -->
+  <div class="opt full">
+    <div class="art">
+      <svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Loose line-art desk scene with papers organizing into a checklist">
+        <g fill="none" stroke="#0A0A0A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <!-- desk line -->
+          <path d="M120 244 H660"/>
+          <!-- laptop -->
+          <rect x="250" y="176" width="120" height="74" rx="6"/>
+          <path d="M236 250 h148"/>
+          <!-- coffee -->
+          <path d="M410 232 v-30 h34 v30 a17 17 0 0 1 -34 0Z"/><path d="M444 208 h12 a9 9 0 0 1 0 18 h-3"/><path d="M420 192 c0 -8 8 -8 8 -16 M432 192 c0 -8 8 -8 8 -16"/>
+          <!-- gear/loop top-left -->
+          <path d="M168 96 a26 26 0 1 1 -19 8" /><path d="M148 100 l-2 -13 12 4Z" fill="#1E62F4" stroke="none"/>
+        </g>
+        <!-- laptop screen tint -->
+        <rect x="258" y="184" width="104" height="58" rx="3" fill="#EAF1FE"/>
+        <g fill="#1E62F4"><rect x="270" y="196" width="44" height="6" rx="3"/><rect x="270" y="210" width="60" height="6" rx="3" opacity=".5"/><rect x="270" y="224" width="36" height="6" rx="3" opacity=".5"/></g>
+        <!-- papers rising into a checklist on the right -->
+        <g fill="#fff" stroke="#0A0A0A" stroke-width="3" stroke-linejoin="round">
+          <rect x="520" y="150" width="120" height="150" rx="10"/>
+        </g>
+        <g><circle cx="548" cy="186" r="11" fill="#1E62F4"/><path d="M543 186l4 4 8-9" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+           <circle cx="548" cy="222" r="11" fill="#1E62F4"/><path d="M543 222l4 4 8-9" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+           <circle cx="548" cy="258" r="11" fill="#EAF1FE" stroke="#1E62F4" stroke-width="2.5"/></g>
+        <g fill="#000" opacity=".15"><rect x="568" y="182" width="56" height="8" rx="4"/><rect x="568" y="218" width="56" height="8" rx="4"/><rect x="568" y="254" width="44" height="8" rx="4"/></g>
+        <!-- a couple of "flying" papers from desk to list -->
+        <g fill="#fff" stroke="#0A0A0A" stroke-width="2.5" stroke-linejoin="round">
+          <rect x="404" y="120" width="40" height="50" rx="5" transform="rotate(-16 424 145)"/>
+          <rect x="456" y="100" width="40" height="50" rx="5" transform="rotate(-8 476 125)"/>
+        </g>
+        <path d="M396 168 Q470 60 524 150" fill="none" stroke="#1E62F4" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="meta">
+      <span class="tag">Option 5 · Editorial line-art</span>
+      <h3>The desk that sorts itself</h3>
+      <p>A loose, hand-drawn scene — laptop, coffee, papers flying into a checklist that completes on its own. Sophisticated and warm without a character. Wide format suits the hero.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="note">
+  <p><b>How to choose:</b> reply with a number. Want a blend (e.g. "Option 2 but warmer" or "Option 1's character with Option 3's dashboard")? Say so — these are quick to remix or recolor before it goes in the live hero.</p>
+</div>
+</body>
+</html>
