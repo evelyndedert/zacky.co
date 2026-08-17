@@ -2132,7 +2132,10 @@ function handleSubmit(e) {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams(new FormData(form)).toString()
-  }).then(() => {
+  }).then((r) => {
+    // Only report success when Netlify actually accepted the POST — a 404 here
+    // means the form isn't registered on the deployed site and the message is lost.
+    if (!r.ok) { throw new Error('form POST failed: ' + r.status); }
     btn.textContent = 'Got it — we\'ll be in touch!';
     btn.style.cssText = 'width:100%;padding:14px 28px;border-radius:6px;background:#4A7A3A;color:#F5F0E8;font-size:14px;font-weight:600;font-family:inherit;cursor:default;';
     document.getElementById('name').disabled = true;
