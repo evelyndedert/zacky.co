@@ -1,1 +1,2 @@
-/audit   /audit.html   200
+/audit        /#contact   301!
+/audit.html   /#contact   301!
