@@ -130,7 +130,7 @@
     <p class="label">Bring the bottleneck.</p>
     <h1>About 15 minutes, <span>at your pace.</span></h1>
     <p>Thanks for making time. This is a short interview about where work piles up for your team, and where your biggest opportunities are.</p>
-    <p>It asks one question at a time. Type your answers, or tap the mic and just talk. You can stop and come back on this device whenever you like.</p>
+    <p>It asks one question at a time. Type your answers, or tap the mic and just talk. You can stop anytime and pick up later on this same device and browser.</p>
     <p>When you finish, your answers are analyzed and the results are sent back to you.</p>
     <div class="actions">
       <button class="btn" id="start">Start the interview</button>
@@ -148,7 +148,7 @@
 
   <div class="composer" id="composer">
     <div class="box">
-      <textarea id="input" rows="1" placeholder="Type your answer" aria-label="Your answer"></textarea>
+      <textarea id="input" rows="1" placeholder="Type your answer" aria-label="Your answer" maxlength="8000"></textarea>
       <button class="icon mic hidden" id="mic" aria-label="Talk instead of typing" title="Talk instead of typing">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 17v4"/></svg>
       </button>
@@ -205,6 +205,7 @@
     $('intro').classList.add('hidden');
     $('chat').classList.add('on');
     render();
+    $('input').value = state.draft || ''; grow();
     var last = state.messages[state.messages.length - 1];
     if (!state.messages.length) { state.messages.push({ role: 'user', content: '__START__' }); save(); ask(); }
     else if (last.role === 'user' && !state.done) { ask(); }
@@ -213,45 +214,75 @@
 
   function ask() {
     busy = true; notice(''); $('typing').classList.add('on'); updateSend(); scroll();
+    // Give up after 60s so a stalled connection shows "Try again" instead of an endless spinner.
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 60000) : null;
     fetch(ENDPOINT, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ctrl ? ctrl.signal : undefined,
       body: JSON.stringify({ invite: invite, sessionId: state.sessionId, messages: state.messages })
     }).then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; });
     }).then(function (res) {
-      if (!res.ok || !res.j.reply) throw new Error(res.j.error || 'no reply');
+      if (!res.ok || !res.j.reply) { var e = new Error(res.j.error || ''); e.server = true; throw e; }
       state.messages.push({ role: 'assistant', content: res.j.reply });
       if (res.j.done) state.done = true;
       save(); render();
       if (!state.done) $('input').focus();
     }).catch(function (err) {
-      var msg = (err && err.message && err.message !== 'no reply' && err.message !== 'Failed to fetch') ? err.message
+      // Only show the server's own words; browser network errors ("Load failed", aborts) get the plain message.
+      var msg = (err && err.server && err.message) ? err.message
         : "Couldn't reach the interviewer just now. Your answer is saved.";
       notice(msg + ' <button class="link" id="retry">Try again</button>');
       $('retry').onclick = ask;
     }).then(function () {
+      if (timer) clearTimeout(timer);
       busy = false; $('typing').classList.remove('on'); updateSend();
     });
   }
 
   function send() {
-    var text = $('input').value.trim();
+    var text = $('input').value.trim().slice(0, 15000);
     if (!text || busy || state.done) return;
-    stopMic();
-    state.messages.push({ role: 'user', content: text });
-    save();
+    stopMic(true);
+    var last = state.messages[state.messages.length - 1];
+    // The last answer never got a reply (a failed send): the backend needs user/assistant turns to alternate,
+    // so retry the greeting, or fold this text into that unanswered answer, instead of adding a second one.
+    if (last && last.role === 'user') {
+      if (last.content === '__START__') { ask(); return; }
+      // Keep a folded answer under the backend's 16,000-character limit; the new text stays in the box.
+      if (last.content.length + text.length > 15000) {
+        notice('Your last answer hasn\'t gone through yet. Send it first, then add this. <button class="link" id="retry">Try again</button>');
+        $('retry').onclick = ask;
+        return;
+      }
+      last.content += '\n\n' + text;
+    } else {
+      state.messages.push({ role: 'user', content: text });
+    }
     $('input').value = ''; grow();
-    add('user', text);
+    render();
     ask();
   }
 
-  function grow() { var t = $('input'); t.style.height = 'auto'; t.style.height = Math.min(t.scrollHeight, window.innerHeight * 0.4) + 'px'; updateSend(); }
+  // grow() runs on every change to the box, so it also keeps the unsent draft saved across reloads.
+  function grow() { var t = $('input'); t.style.height = 'auto'; t.style.height = Math.min(t.scrollHeight, window.innerHeight * 0.4) + 'px'; state.draft = t.value; save(); updateSend(); }
   function updateSend() { $('send').disabled = busy || !$('input').value.trim(); }
 
   $('start').onclick = begin;
   $('restart').onclick = function () { state = fresh(); save(); begin(); };
   $('send').onclick = send;
-  $('finish').onclick = function () { if (busy || state.done) return; $('input').value = "I'm finished. Please submit my answers."; send(); };
+  // Finish takes two taps, and sends whatever they've typed along with it, so a stray tap can't end the interview
+  // and a typed last answer is never thrown away.
+  var armed = null;
+  function disarm() { clearTimeout(armed); armed = null; $('finish').textContent = 'Finish and submit'; }
+  $('finish').onclick = function () {
+    if (busy || state.done) return;
+    if (!armed) { $('finish').textContent = 'Tap again to submit your answers'; armed = setTimeout(disarm, 5000); return; }
+    disarm();
+    var typed = $('input').value.trim();
+    $('input').value = (typed ? typed + '\n\n' : '') + "I'm finished. Please submit my answers.";
+    send();
+  };
   $('input').addEventListener('input', grow);
   $('input').addEventListener('keydown', function (e) {
     var touch = window.matchMedia('(pointer: coarse)').matches;
@@ -265,7 +296,13 @@
     $('mic').classList.remove('hidden');
     $('input').placeholder = 'Type your answer, or tap the mic to talk';
   }
-  function stopMic() { if (rec && listening) { listening = false; try { rec.stop(); } catch (e) {} } }
+  // On send, detach the recognizer first: a late result would otherwise refill the box after it was cleared.
+  function stopMic(detach) {
+    if (!rec) return;
+    if (detach) { rec.onresult = null; rec.onerror = null; rec.onend = null; }
+    if (listening) { try { rec.stop(); } catch (e) {} }
+    setLive(false);
+  }
   function setLive(on) {
     listening = on;
     $('mic').classList.toggle('live', on);
@@ -273,7 +310,7 @@
     $('hint').textContent = on ? 'Listening… tap the mic again when you\'re done, then check the words and send.' : '';
   }
   $('mic').onclick = function () {
-    if (listening) { stopMic(); setLive(false); return; }
+    if (listening) { stopMic(false); return; }
     rec = new SR();
     rec.lang = 'en-US'; rec.continuous = true; rec.interimResults = true;
     baseText = $('input').value ? $('input').value.replace(/\s*$/, ' ') : '';
