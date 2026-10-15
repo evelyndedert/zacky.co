@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Zacky AI-assisted interview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+  /* Matches zacky.co (Oct 2026): warm paper, ink, one terracotta accent, Inter with the Playfair Z. */
+  :root {
+    --paper: oklch(98.4% .004 80);
+    --ink: oklch(22% .008 65);
+    --muted: oklch(47% .009 65);
+    --line: oklch(85% .008 65);
+    --accent: oklch(48% .14 32);
+    --soft: oklch(94.5% .009 80);
+    --sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font: 16px/1.55 var(--sans); -webkit-font-smoothing: antialiased;
+  }
+  button, textarea { font: inherit; }
+  button:focus-visible, textarea:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+  .shell { max-width: 720px; margin: 0 auto; min-height: 100%; display: flex; flex-direction: column; padding: 0 20px; }
+
+  /* Header: the zacky.co nav */
+  header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 24px 0; border-bottom: 1px solid var(--line); }
+  .logo { display: flex; align-items: center; gap: 12px; }
+  .mark { font: 700 34px/1 "Playfair Display", Georgia, serif; }
+  .brand { font-size: 20px; font-weight: 600; letter-spacing: -.8px; }
+  .tag { font-size: 13px; font-weight: 500; color: var(--muted); text-align: right; }
+
+  /* Intro */
+  .intro { padding: 56px 0 40px; }
+  .intro .label { font-size: 13px; font-weight: 500; color: var(--ink); margin: 0 0 22px; }
+  .intro h1 {
+    font-size: clamp(40px, 8vw, 64px); line-height: 1.04; font-weight: 600; letter-spacing: -.06em;
+    margin: 0 0 28px;
+  }
+  .intro h1 span { color: var(--accent); display: block; }
+  .intro p { margin: 0 0 14px; font-size: 17px; max-width: 52ch; color: var(--muted); }
+  .intro .sig { color: var(--ink); font-weight: 500; font-size: 17px; margin-top: 22px; }
+  .intro .fine { font-size: 12px; color: var(--muted); margin-top: 30px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 22px; align-items: center; margin-top: 30px; }
+  .btn {
+    appearance: none; border: 0; border-radius: 0; background: var(--accent); color: var(--paper);
+    font-size: 15px; font-weight: 500; padding: 16px 22px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 25px; transition: background .2s, transform .2s;
+  }
+  .btn::after { content: "\2197"; }
+  .btn:hover { background: var(--ink); transform: translateY(-2px); }
+  .link {
+    appearance: none; background: none; border: 0; border-bottom: 1px solid currentColor; border-radius: 0;
+    color: var(--muted); font-size: 14px; font-weight: 500; cursor: pointer; padding: 0 0 4px;
+  }
+  .link:hover { color: var(--ink); }
+
+  /* Chat */
+  .chat { flex: 1; padding: 32px 0 8px; display: none; }
+  .chat.on { display: block; }
+  .msg { margin: 0 0 22px; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .msg.ai { padding-left: 16px; border-left: 2px solid var(--accent); font-size: 17px; line-height: 1.6; }
+  .msg.me {
+    margin-left: auto; max-width: 85%; width: fit-content; background: var(--ink); color: var(--paper);
+    padding: 12px 16px; font-size: 16px;
+  }
+  .typing { display: none; padding-left: 16px; border-left: 2px solid var(--line); margin-bottom: 22px; }
+  .typing.on { display: block; }
+  .typing span { display: inline-block; width: 7px; height: 7px; margin-right: 5px; border-radius: 50%; background: var(--muted); animation: blink 1.2s infinite; }
+  .typing span:nth-child(2) { animation-delay: .2s; } .typing span:nth-child(3) { animation-delay: .4s; }
+  @keyframes blink { 0%, 80%, 100% { opacity: .25; } 40% { opacity: 1; } }
+  .notice { font-size: 14px; color: var(--ink); background: var(--soft); border-left: 2px solid var(--accent); padding: 12px 16px; margin: 0 0 22px; display: none; }
+  .notice.on { display: block; }
+  .notice button { margin-left: 8px; }
+  .done { display: none; padding: 34px 0 40px; border-top: 1px solid var(--line); margin-top: 12px; }
+  .done.on { display: block; }
+  .done strong { font-size: clamp(32px, 6vw, 44px); font-weight: 600; letter-spacing: -.05em; line-height: 1.1; display: block; margin-bottom: 10px; }
+  .done span { color: var(--muted); font-size: 16px; }
+
+  /* Composer */
+  .composer {
+    position: sticky; bottom: 0; background: var(--paper); padding: 12px 0 calc(16px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--line); display: none;
+  }
+  .composer.on { display: block; }
+  .box { display: flex; align-items: flex-end; gap: 8px; background: var(--paper); border: 1px solid var(--line); padding: 6px 6px 6px 16px; }
+  .box:focus-within { border-color: var(--ink); }
+  textarea {
+    flex: 1; border: 0; outline: 0; resize: none; background: transparent; color: var(--ink);
+    font: 16px/1.45 var(--sans); padding: 9px 0; max-height: 40vh; min-height: 24px;
+  }
+  textarea:focus-visible { outline: 0; }
+  .icon {
+    appearance: none; border: 0; border-radius: 0; width: 42px; height: 42px; flex-shrink: 0;
+    display: grid; place-items: center; cursor: pointer; background: transparent; color: var(--ink);
+  }
+  .icon svg { width: 20px; height: 20px; }
+  .icon.send { background: var(--accent); color: var(--paper); transition: background .2s; }
+  .icon.send:hover:not(:disabled) { background: var(--ink); }
+  .icon.send:disabled { background: var(--soft); color: var(--muted); cursor: default; }
+  .icon.mic:hover { background: var(--soft); }
+  .icon.mic.live { background: var(--accent); color: var(--paper); animation: pulse 1.4s infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 oklch(48% .14 32 / .45); } 70% { box-shadow: 0 0 0 12px oklch(48% .14 32 / 0); } 100% { box-shadow: 0 0 0 0 oklch(48% .14 32 / 0); } }
+  .hint { font-size: 12.5px; color: var(--muted); margin: 8px 2px 0; min-height: 18px; }
+  .hidden { display: none !important; }
+  @media (max-width: 600px) {
+    header { padding: 18px 0; } .mark { font-size: 30px; } .brand { font-size: 18px; } .tag { font-size: 11px; }
+    .intro { padding: 36px 0 32px; } .intro p { font-size: 16px; }
+    textarea { min-height: 46px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <div class="logo" aria-label="Zacky"><span class="mark" aria-hidden="true">Z</span><span class="brand">Zacky</span></div>
+    <div class="tag">AI-assisted interview</div>
+  </header>
+
+  <section class="intro" id="intro">
+    <p class="label">Bring the bottleneck.</p>
+    <h1>About 15 minutes, <span>at your pace.</span></h1>
+    <p>Thanks for making time. This is a short interview about where work piles up for your team.</p>
+    <p>It asks one question at a time. Type your answers, or tap the mic and just talk. You can stop and come back on this device whenever you like.</p>
+    <p>When you finish, your answers are analyzed and the results are sent back to you.</p>
+    <div class="actions">
+      <button class="btn" id="start">Start the interview</button>
+      <button class="link hidden" id="restart">Start over</button>
+    </div>
+    <p class="fine">Your answers stay private to Zacky.</p>
+  </section>
+
+  <section class="chat" id="chat" aria-live="polite">
+    <div id="log"></div>
+    <div class="typing" id="typing" aria-label="The interviewer is writing"><span></span><span></span><span></span></div>
+    <div class="notice" id="notice"></div>
+    <div class="done" id="done"><strong>Thank you.</strong><span>That's everything. Your answers will be analyzed and the results sent back to you.</span></div>
+  </section>
+
+  <div class="composer" id="composer">
+    <div class="box">
+      <textarea id="input" rows="1" placeholder="Type your answer" aria-label="Your answer"></textarea>
+      <button class="icon mic hidden" id="mic" aria-label="Talk instead of typing" title="Talk instead of typing">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 17v4"/></svg>
+      </button>
+      <button class="icon send" id="send" aria-label="Send" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
+      </button>
+    </div>
+    <div class="hint" id="hint"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var ENDPOINT = 'https://karadedert.app.n8n.cloud/webhook/zacky-interview';
+  var invite = new URLSearchParams(location.search).get('i') || '';
+  var KEY = 'zacky-interview:' + invite;
+  var $ = function (id) { return document.getElementById(id); };
+  var state = load() || fresh();
+  var busy = false;
+
+  function fresh() {
+    var id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(36).slice(2);
+    return { sessionId: id, messages: [], done: false };
+  }
+  function load() { try { return JSON.parse(localStorage.getItem(KEY)); } catch (e) { return null; } }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+  if (!invite) {
+    $('start').classList.add('hidden');
+    document.querySelector('.intro h1').textContent = 'This link is missing its invitation.';
+  } else if (state.messages.length) {
+    $('start').textContent = 'Pick up where you left off';
+    $('restart').classList.remove('hidden');
+  }
+
+  function add(role, text) {
+    var d = document.createElement('div');
+    d.className = 'msg ' + (role === 'user' ? 'me' : 'ai');
+    d.textContent = text;
+    $('log').appendChild(d);
+  }
+  function render() {
+    $('log').innerHTML = '';
+    state.messages.forEach(function (m) { if (m.content !== '__START__') add(m.role, m.content); });
+    $('done').classList.toggle('on', !!state.done);
+    $('composer').classList.toggle('on', !state.done);
+    scroll();
+  }
+  function scroll() { window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }
+  function notice(html) { var n = $('notice'); n.innerHTML = html || ''; n.classList.toggle('on', !!html); }
+
+  function begin() {
+    $('intro').classList.add('hidden');
+    $('chat').classList.add('on');
+    render();
+    var last = state.messages[state.messages.length - 1];
+    if (!state.messages.length) { state.messages.push({ role: 'user', content: '__START__' }); save(); ask(); }
+    else if (last.role === 'user' && !state.done) { ask(); }
+    else if (!state.done) { $('input').focus(); }
+  }
+
+  function ask() {
+    busy = true; notice(''); $('typing').classList.add('on'); updateSend(); scroll();
+    fetch(ENDPOINT, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ invite: invite, sessionId: state.sessionId, messages: state.messages })
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; });
+    }).then(function (res) {
+      if (!res.ok || !res.j.reply) throw new Error(res.j.error || 'no reply');
+      state.messages.push({ role: 'assistant', content: res.j.reply });
+      if (res.j.done) state.done = true;
+      save(); render();
+      if (!state.done) $('input').focus();
+    }).catch(function (err) {
+      var msg = (err && err.message && err.message !== 'no reply' && err.message !== 'Failed to fetch') ? err.message
+        : "Couldn't reach the interviewer just now. Your answer is saved.";
+      notice(msg + ' <button class="link" id="retry">Try again</button>');
+      $('retry').onclick = ask;
+    }).then(function () {
+      busy = false; $('typing').classList.remove('on'); updateSend();
+    });
+  }
+
+  function send() {
+    var text = $('input').value.trim();
+    if (!text || busy || state.done) return;
+    stopMic();
+    state.messages.push({ role: 'user', content: text });
+    save();
+    $('input').value = ''; grow();
+    add('user', text);
+    ask();
+  }
+
+  function grow() { var t = $('input'); t.style.height = 'auto'; t.style.height = Math.min(t.scrollHeight, window.innerHeight * 0.4) + 'px'; updateSend(); }
+  function updateSend() { $('send').disabled = busy || !$('input').value.trim(); }
+
+  $('start').onclick = begin;
+  $('restart').onclick = function () { state = fresh(); save(); begin(); };
+  $('send').onclick = send;
+  $('input').addEventListener('input', grow);
+  $('input').addEventListener('keydown', function (e) {
+    var touch = window.matchMedia('(pointer: coarse)').matches;
+    if (e.key === 'Enter' && !e.shiftKey && !touch) { e.preventDefault(); send(); }
+  });
+
+  // Mic: the browser's own speech recognition turns talk into text in the box; nothing sends until they tap send.
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var rec = null, listening = false, baseText = '';
+  if (SR) {
+    $('mic').classList.remove('hidden');
+    $('input').placeholder = 'Type your answer, or tap the mic to talk';
+  }
+  function stopMic() { if (rec && listening) { listening = false; try { rec.stop(); } catch (e) {} } }
+  function setLive(on) {
+    listening = on;
+    $('mic').classList.toggle('live', on);
+    $('mic').setAttribute('aria-label', on ? 'Stop listening' : 'Talk instead of typing');
+    $('hint').textContent = on ? 'Listening… tap the mic again when you\'re done, then check the words and send.' : '';
+  }
+  $('mic').onclick = function () {
+    if (listening) { stopMic(); setLive(false); return; }
+    rec = new SR();
+    rec.lang = 'en-US'; rec.continuous = true; rec.interimResults = true;
+    baseText = $('input').value ? $('input').value.replace(/\s*$/, ' ') : '';
+    rec.onresult = function (e) {
+      var finalText = '', interim = '';
+      for (var i = 0; i < e.results.length; i++) {
+        if (e.results[i].isFinal) finalText += e.results[i][0].transcript;
+        else interim += e.results[i][0].transcript;
+      }
+      $('input').value = baseText + finalText + interim;
+      grow();
+    };
+    rec.onerror = function (e) {
+      setLive(false);
+      if (e.error === 'not-allowed' || e.error === 'service-not-allowed') $('hint').textContent = 'The mic is blocked in this browser. You can type, or use your keyboard\'s mic key.';
+    };
+    rec.onend = function () { if (listening) setLive(false); };
+    try { rec.start(); setLive(true); } catch (e) { setLive(false); }
+  };
+})();
+</script>
+</body>
+</html>
